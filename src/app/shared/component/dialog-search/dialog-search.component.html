@@ -1,0 +1,302 @@
+<div mat-dialog-title cdkDrag cdkDragRootElement=".cdk-overlay-pane" class="cursor-scroll">
+  <mat-dialog-content>
+    <mat-form-field>
+      <div class="header-dialog topic" cdkDragHandle>
+        <label for=""> {{ title }} </label>
+        <button type="button" class="close" (click)="onNoClick()">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="content-dialog overflow-y max-h-400 min-height">
+        <div class="form-search row">
+          <div class="col-12 col-md-2 text-right">
+            <label for=""> ค้นหา </label>
+          </div>
+          <div class="col-12 col-md-7">
+            <input type="text" class="form-control" #searchValue />
+            <p class="text-red">{{ errorMessage }}</p>
+          </div>
+          <div class="col-12 col-md-3 d-flex">
+            <button (click)="search(searchValue)" class="btn-info">เริ่มค้นหา</button>
+            <div class="flex-1 tooltip-box">
+              <img src="assets/images/icon/question.png" />
+              <div class="tooltip-text">
+                <p> <b> ตัวอย่าง </b> </p>
+                <p> - ต้องการหา เลข ที่ตามหลังด้วย 011 : <b>พิมพ์ *011</b> </p>
+                <p> - ต้องการหา เลข ที่ขึ้นต้นด้วย 011 : <b>พิมพ์ 011* </b> </p>
+                <p> - ต้องการหา เลข ที่ขึ้นต้นด้วย 01 ลงท้ายด้วย 1 : <b>พิมพ์ 01*1</b> </p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="form-result" *ngIf="dataSource.length > 0">
+          <table class="table-normal table-search">
+            <tr>
+              <th *ngFor="let header of dataSourceHeader">{{ header }}</th>
+            </tr>
+            <tbody *ngIf="searchType === 'typeAccountCode' || searchType === 'typeAccountCodeAsset'">
+              <tr *ngFor="let data of dataSource">
+                <td> <img src="assets/images/icon/record.gif" class="icon pointer"
+                    (click)="chooseDataSearch(data.value, data.description)" />
+                </td>
+                <td>{{ data.value }}</td>
+                <td class="text-left">{{ data.description }}</td>
+              </tr>
+            </tbody>
+            <tbody *ngIf="searchType === 'centerCode'">
+              <tr *ngFor="let data of dataSource">
+                <td> <img src="assets/images/icon/record.gif" class="icon pointer"
+                    (click)="chooseDataSearch(data.bgFundCenter, data.description,data.paymentCenter.bgBudgetArea)" />
+                </td>
+                <td>{{ data.bgFundCenter }}</td>
+                <td class="text-center">{{ data.name }}</td>
+                <td class="text-left">{{ data.description }}</td>
+                <td>{{ data.companyCode }}</td>
+                <td>{{ data.paymentCenter.valueCode}}</td>
+                <td>{{ data.paymentCenter.bgBudgetArea}}</td>
+              </tr>
+            </tbody>
+            <tbody *ngIf="searchType === 'ownCenterCode'">
+              <tr *ngFor="let data of dataSource">
+
+                <td> <img src="assets/images/icon/record.gif" class="icon pointer"
+                    (click)="chooseDataSearch(data.bgFundCenter, data.description)" />
+                </td>
+                <td>{{ data.bgFundCenter }}</td>
+                <td class="text-left">{{ data.name }}</td>
+                <td class="text-left">{{ data.description }}</td>
+                <td>{{ data.companyCode }}</td>
+                <td>{{ data.bgPaymentCenter }}</td>
+                <td>1000</td>
+              </tr>
+            </tbody>
+            <tbody *ngIf="searchType === 'areaCode'">
+              <tr *ngFor="let data of dataSource">
+                <td> <img src="assets/images/icon/record.gif" class="icon pointer"
+                    (click)="chooseDataSearch(data.valueCode, data.name)" />
+                </td>
+                <td>{{ data.valueCode }}</td>
+                <td class="text-left">{{ data.name }}</td>
+                <td class="text-left">{{ data.description }}</td>
+              </tr>
+            </tbody>
+            <tbody *ngIf="searchType === 'sourceMoneyCode'">
+              <tr *ngFor="let data of dataSource">
+
+                <td> <img src="assets/images/icon/record.gif" class="icon pointer"
+                    (click)="chooseDataSearch(data.valueCode, data.name)" />
+                </td>
+                <td>{{ data.valueCode }}</td>
+                <td class="text-left">{{ data.name }}</td>
+                <td class="text-left">{{ data.description }}</td>
+              </tr>
+            </tbody>
+            <tbody *ngIf="searchType === 'sourceBudgetCode' && !isConditionShowSourceBudgetCode">
+              <tr *ngFor="let data of dataSource">
+                <td> <img src="assets/images/icon/record.gif" class="icon pointer"
+                    (click)="chooseDataSearch(data.valueCode, data.name, data.budgetCodeAttr)" />
+                </td>
+                <td>{{ data.valueCode }}</td>
+                <td class="text-left">{{ data.name }}</td>
+                <td class="text-left">{{ data.description }}</td>
+                <!-- <td *ngIf="data.budgetCodeAttr != null">{{ data.budgetCodeAttr.fundSource }}</td>
+                                <td *ngIf="data.budgetCodeAttr != null">{{ data.budgetCodeAttr.budgetAccount }}</td>
+                <td *ngIf="data.budgetCodeAttr == null">-</td>
+                <td *ngIf="data.budgetCodeAttr == null">-</td> -->
+              </tr>
+            </tbody>
+            <tbody *ngIf="searchType === 'sourceBudgetCode' && isConditionShowSourceBudgetCode">
+              <tr *ngFor="let data of dataSource">
+                <td> <img src="assets/images/icon/record.gif" class="icon pointer"
+                    (click)="chooseDataSearch(data.valueCode, data.name, data.budgetCodeAttr)" />
+                </td>
+                <td>{{ data.valueCode }}</td>
+                <td class="text-left">{{ data.description }}</td>
+                <td *ngIf="data.budgetCodeAttr != null">{{ data.budgetCodeAttr.fundSource }}</td>
+                <td *ngIf="data.budgetCodeAttr != null">{{ data.budgetCodeAttr.budgetAccount }}</td>
+                <td *ngIf="data.budgetCodeAttr == null">-</td>
+                <td *ngIf="data.budgetCodeAttr == null">-</td>
+              </tr>
+            </tbody>
+            <tbody *ngIf="searchType === 'mainActivityCode'">
+              <tr *ngFor="let data of dataSource">
+
+                <td> <img src="assets/images/icon/record.gif" class="icon pointer"
+                    (click)="chooseDataSearch(data.valueCode, data.name)" />
+                </td>
+                <td>{{ data.valueCode }}</td>
+                <td class="text-left">{{ data.name }}</td>
+                <!-- <td class="text-left">{{ data.description }}</td> -->
+              </tr>
+            </tbody>
+            <tbody *ngIf="searchType === 'subActivityCode'">
+              <tr *ngFor="let data of dataSource">
+
+                <td> <img src="assets/images/icon/record.gif" class="icon pointer"
+                    (click)="chooseDataSearch(data.valueCode, data.name)" />
+                </td>
+                <td>{{ data.valueCode }}</td>
+                <td class="text-left">{{ data.name }}</td>
+                <td class="text-left">{{ data.description }}</td>
+                <td>{{ data.companyCode }}</td>
+              </tr>
+            </tbody>
+            <tbody *ngIf="searchType === 'subAccountCode'">
+              <tr *ngFor="let data of dataSource">
+
+                <td> <img src="assets/images/icon/record.gif" class="icon pointer"
+                    (click)="chooseDataSearch(data.valueCode, data.name, data.costCenter.valueCode, data.costCenter.name)" />
+                </td>
+                <td>{{ data.valueCode }}</td>
+                <td class="text-left">{{ data.name }}</td>
+                <td>{{ data.costCenter.valueCode }}</td>
+                <td>{{ data.caSubAccountCategory }}</td>
+              </tr>
+            </tbody>
+            <tbody *ngIf="searchType === 'packageCode'">
+              <tr *ngFor="let data of dataSource">
+
+                <td> <img src="assets/images/icon/record.gif" class="icon pointer"
+                    (click)="chooseDataSearch(data.valueCode, data.name)" />
+                </td>
+                <td>{{ data.valueCode }}</td>
+                <td class="text-left">{{ data.name }}</td>
+              </tr>
+            </tbody>
+            <tbody *ngIf="searchType === 'branchNo'">
+              <tr *ngFor="let data of dataSource">
+                <td> <img src="assets/images/icon/record.gif" class="icon pointer"
+                    (click)="chooseDataSearch(data.routingNo, data.name)" />
+                </td>
+                <td>-</td>
+                <td>{{ data.routingNo }}</td>
+                <td class="text-left">{{ data.description }}</td>
+                <td>-</td>
+                <td>-</td>
+                <td>-</td>
+              </tr>
+            </tbody>
+            <tbody *ngIf="searchType === 'accountDepositCode'">
+              <tr *ngFor="let data of dataSource">
+
+                <td> <img src="assets/images/icon/record.gif" class="icon pointer"
+                    (click)="chooseDataSearch(data.valueCode, data.name, data.costCenter.valueCode, data.costCenter.paymentCenter.description)" />
+                </td>
+                <td>{{ data.valueCode }}</td>
+                <td class="text-left">{{ data.name }}</td>
+                <td>{{ data.costCenter.paymentCenter.valueCode }}</td>
+
+
+                <td>{{ data.areaCode }}</td>
+              </tr>
+            </tbody>
+            <tbody *ngIf="searchType === 'gpscCode'">
+              <tr *ngFor="let data of dataSource">
+                <td> <img src="assets/images/icon/record.gif" class="icon pointer"
+                    (click)="chooseDataSearch(data.valueCode, data.name)" />
+                </td>
+                <td>{{ data.valueCode }}</td>
+                <td class="text-left">{{ data.name }}</td>
+                <td>{{ data.gpscGroup }}</td>
+              </tr>
+            </tbody>
+            <tbody *ngIf="searchType === 'vendorTaxId' || searchType === 'vendorTaxId2'">
+              <tr *ngFor="let data of dataSource">
+                <td> <img src="assets/images/icon/record.gif" class="icon pointer"
+                    (click)="chooseDataSearch(data.taxId, data.name)" />
+                </td>
+                <td>{{ data.taxId }}</td>
+                <td>{{ data.valueCode }}</td>
+                <td class="text-left">{{ data.name }}</td>
+              </tr>
+            </tbody>
+            <tbody *ngIf="searchType === 'vendorBankAccount'">
+              <tr *ngFor="let data of dataSource">
+
+                <td> <img src="assets/images/icon/record.gif" class="icon pointer"
+                    (click)="chooseDataSearch(data.bankAccountNo, data.name)" />
+                </td>
+                <td>{{ data.bankAccountNo }}</td>
+                <td>{{ data.branch.bank }}</td>
+                <td>-</td>
+                <td>{{ data.vendor.valueCode }}</td>
+                <!-- <td>{{ data.vendor.taxId }}</td> -->
+                <td class="text-left">{{ data.vendor.name }}</td>
+                <td>-</td>
+              </tr>
+            </tbody>
+            <tbody *ngIf="searchType === 'assetCode'">
+              <tr *ngFor="let data of dataSource">
+
+                <td> <img src="assets/images/icon/record.gif" class="icon pointer"
+                    (click)="chooseDataSearch(data.valueCode, data.description)" />
+                </td>
+                <td>{{ data.valueCode }}</td>
+                <td class="text-left">{{ data.description }}</td>
+                <td>{{ data.valueCode }}</td>
+                <td class="text-left">{{ data.help }}</td>
+              </tr>
+            </tbody>
+            <tbody *ngIf="searchType === 'unit'">
+              <tr *ngFor="let data of dataSource">
+                <td> <img src="assets/images/icon/record.gif" class="icon pointer"
+                    (click)="chooseDataSearch(data.valueCode, data.description)" />
+                </td>
+                <td>{{ data.valueCode }}</td>
+                <td class="text-left">{{ data.name }}</td>
+                <td class="text-left">{{ data.description }}</td>
+              </tr>
+            </tbody>
+            <tbody *ngIf="searchType === 'incomeCode'">
+              <tr *ngFor="let data of dataSource">
+                <td> <img src="assets/images/icon/record.gif" class="icon pointer"
+                    (click)="chooseDataSearch(data.income.valueCode, data.income.name,data.income.fundSourcePattern)" />
+                </td>
+                <td>{{ data.income.valueCode }}</td>
+                <td class="text-left">{{ data.income.name }}</td>
+                <td>{{ data.fromAccount }}</td>
+                <td>{{ data.toAccount }}</td>
+              </tr>
+            </tbody>
+            <tbody *ngIf="searchType === 'bankBook'">
+              <tr *ngFor="let data of dataSource">
+
+                <td> <img src="assets/images/icon/record.gif" class="icon pointer"
+                    (click)="chooseDataSearch(data.valueCode, data.name)" />
+                </td>
+                <td>{{ data.companyCode }}</td>
+                <td>{{ data.valueCode }}</td>
+                <td class="text-left">{{ data.name }}</td>
+                <td width="40%" class="text-left">{{ data.description }}</td>
+              </tr>
+            </tbody>
+            <tbody *ngIf="searchType === 'sideList'">
+              <tr *ngFor="let data of dataSource">
+
+                <td> <img src="assets/images/icon/record.gif" class="icon pointer"
+                    (click)="chooseDataSearch(data.valueCode, data.name)" />
+                </td>
+                <td>{{ data.valueCode }}</td>
+                <td class="text-left">{{ data.name }}</td>
+              </tr>
+            </tbody>
+            <tbody *ngIf="searchType === 'backupDocument'">
+              <tr *ngFor="let data of dataSource">
+
+                <td> <img src="assets/images/icon/record.gif" class="icon pointer" (click)="chooseDataSearchBudgetReserve(data.brDocumentNo, data.budgetAccountName,data.fundSource,data.fundSourceName
+                    ,data.budgetCode,data.budgetCodeName
+                    )" />
+                </td>
+                <td>{{ data.brDocumentNo }}</td>
+                <td>{{ data.budgetAccountName }}</td>
+                <td>{{ data.docType }}</td>
+                <td class="text-left">{{ data.companyCode }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </mat-form-field>
+  </mat-dialog-content>
+</div>
+<app-loading class="backdrop-loading" [isLoading]="isLoading"></app-loading>

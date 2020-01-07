@@ -1,0 +1,286 @@
+<form [formGroup]="om021FormCreate">
+  <div class="content-box">
+    <div class="content-detail">
+      <div class="row">
+        <div class="col-12 col-md-2"><label> รหัสหน่วยงาน </label></div>
+        <div class="col-12 col-md-3">
+          <input class="form-control input-none-border" type="text" formControlName="departmentCode" />
+          <p>{{ userProfile?.userdata?.departmentName }}</p>
+        </div>
+        <div class="col-12 col-md-2"><label> รหัสหน่วยเบิกจ่าย </label></div>
+        <div class="col-12 col-md-3">
+          <input class="form-control input-none-border" type="text" formControlName="disbursementCode" />
+          <p>{{ userProfile?.userdata?.divisionName }}</p>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-12 col-md-2"><label> รหัสพื้นที่ </label></div>
+        <div class="col-12 col-md-3">
+          <select class="form-control disabled" formControlName="areaCode">
+            <option *ngFor="let item of constant.LIST_AREA_CODE" [ngValue]="item.valueCode">{{ item.valueCode }}  -  {{ item.name }}</option>
+          </select>
+        </div>
+      </div>
+    </div>
+    <mat-tab-group class="row-border" #tabRef (selectedTabChange)="tabChanged($event)" [(selectedIndex)]="selectedTabIndex">
+      <mat-tab label="เงื่อนไข">
+        <mat-tab-group class="row-border mat-tap-style-2">
+          <mat-tab label="ค้นหาตามเลขที่เอกสาร">
+            <div class="row">
+              <div class="col-md-2">
+                <label class="text-underline-red"> เลขที่เอกสารขอเบิก </label>
+              </div>
+              <div class="col-md-4">
+                <input class="form-control " appNumberOnly numericType="number" type="text" maxlength="10" formControlName="docNoFrom" />
+              </div>
+              <div class="col-md-1 text-right">
+                <label> ถึง </label>
+              </div>
+              <div class="col-md-4">
+                <input class="form-control " appNumberOnly numericType="number" type="text" maxlength="10" formControlName="docNoTo" />
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-2">
+                <label class="text-underline-blue"> ปีงบประมาณ </label>
+              </div>
+              <div class="col-md-4">
+                <select class="form-control " formControlName="yearBudgetFrom">
+                  <option *ngFor="let item of constant.LIST_YEAR" [ngValue]="item.id">{{ item.name }}</option>
+                </select>
+              </div>
+              <div class="col-md-1 text-right">
+                <label> ถึง </label>
+              </div>
+              <div class="col-md-4">
+                <select class="form-control " formControlName="yearBudgetTo">
+                  <option *ngFor="let item of constant.LIST_YEAR" [ngValue]="item.id">{{ item.name }}</option>
+                </select>
+              </div>
+            </div>
+            <ul style="color:red">
+              <li *ngFor="let c of listValidate">{{ c }}</li>
+            </ul>
+            <ul style="color:red">
+              <li *ngFor="let c of listMessageResponse">{{ c }}</li>
+            </ul>
+            <div class="row mx-auto border-t-black">
+              <div class="mx-auto">
+                <button type="button" class="btn-info" (click)="onSearch('normal')">แสดงรายการ</button>
+              </div>
+            </div>
+          </mat-tab>
+          <mat-tab label="ค้นหาตามเงื่อนไขอื่น">
+            <div class="row">
+              <div class="col-md-2">
+                <select class="form-control select-searchType" formControlName="searchType">
+                  <option *ngFor="let item of constant.LIST_TYPE_SEARCH_CONDITION" [ngValue]="item.id">{{ item.name }} </option>
+                </select>
+              </div>
+              <div class="col-md-4">
+                <mat-form-field class="d-flex">
+                  <input
+                    readonly
+                    class="form-control date-mat-input"
+                    matInput
+                    [matDatepicker]="typeSearchConditionDateFrom"
+                    formControlName="conditionFrom"
+                    (dateChange)="onChangeConditionFrom($event)"
+                  />
+                  <mat-datepicker-toggle matSuffix [for]="typeSearchConditionDateFrom"></mat-datepicker-toggle>
+                  <mat-datepicker #typeSearchConditionDateFrom [calendarHeaderComponent]="datePickerHeader"></mat-datepicker>
+                </mat-form-field>
+              </div>
+              <div class="col-md-1 text-right">
+                <label> ถึง </label>
+              </div>
+              <div class="col-md-4">
+                <mat-form-field class="d-flex">
+                  <input
+                    readonly
+                    class="form-control date-mat-input"
+                    matInput
+                    [matDatepicker]="typeSearchConditionDateTo"
+                    formControlName="conditionTo"
+                    [matDatepickerFilter]="minFilter"
+                  />
+                  <mat-datepicker-toggle matSuffix [for]="typeSearchConditionDateTo"></mat-datepicker-toggle>
+                  <mat-datepicker #typeSearchConditionDateTo [calendarHeaderComponent]="datePickerHeader"></mat-datepicker>
+                </mat-form-field>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-2">
+                <label class="text-underline-green"> รหัสประจำตัวผู้เสียภาษี (ผู้ขาย) </label>
+              </div>
+              <div class="col-md-4">
+                <input class="form-control " type="text" maxlength="13" formControlName="citizenIdFrom" />
+              </div>
+              <div class="col-md-1 text-right">
+                <label> ถึง </label>
+              </div>
+              <div class="col-md-4">
+                <input class="form-control " type="text" maxlength="13" formControlName="citizenIdTo" />
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-2">
+                <label class="text-underline-green"> ประเภทเอกสาร </label>
+              </div>
+              <div class="col-md-4">
+                <select class="form-control " formControlName="docTypeFrom">
+                  <option *ngFor="let item of constant.LIST_DOC_TYPE_OM" [ngValue]="item.id">{{ item.name }} </option>
+                </select>
+              </div>
+              <div class="col-md-1 text-right">
+                <label> ถึง </label>
+              </div>
+              <div class="col-md-4">
+                <select class="form-control " formControlName="docTypeTo">
+                  <option *ngFor="let item of constant.LIST_DOC_TYPE_OM" [ngValue]="item.id">{{ item.name }} </option>
+                </select>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-2">
+                <label class="text-underline-green"> วิธีการชำระเงิน </label>
+              </div>
+              <div class="col-md-4">
+                <select class="form-control " formControlName="payMethodFrom">
+                  <option *ngFor="let item of constant.LIST_PAYMENT_OM" [ngValue]="item.id">{{ item.name }} </option>
+                </select>
+              </div>
+              <div class="col-md-1 text-right">
+                <label> ถึง </label>
+              </div>
+              <div class="col-md-4">
+                <select class="form-control " formControlName="payMethodTo">
+                  <option *ngFor="let item of constant.LIST_PAYMENT_OM" [ngValue]="item.id">{{ item.name }} </option>
+                </select>
+              </div>
+            </div>
+            <ul style="color:red">
+              <li *ngFor="let c of listMessageResponse">{{ c }}</li>
+            </ul>
+            <div class="row mx-auto border-t-black">
+              <div class="mx-auto">
+                <button type="button" class="btn-info" (click)="onSearch('condition')">แสดงรายการ</button>
+              </div>
+            </div>
+          </mat-tab>
+        </mat-tab-group>
+      </mat-tab>
+      <mat-tab label="รายการรออนุมัติ">
+        <div *ngIf="listDocument.length > 0 && listDocument != null">
+          <div class="description_table">
+            จัดลำดับตาม <strong> {{ sortBy }} </strong> จาก <strong> {{ orderBy === 'ASC' ? 'จากน้อยไปมาก' : 'จากมากไปน้อย' }}</strong>
+          </div>
+          <div class="description_table">
+            หน้าที่ <strong> {{ p }} </strong> จากทั้งหมด <strong> {{ listDocument.length }} </strong>
+          </div>
+          <table class="table-normal table-presave table-h-underline" id="groupRowCollapse">
+            <tr>
+              <th>เลือก</th>
+              <th class="sort">อนุมัติ</th>
+              <th class="sort">ไม่อนุมัติ</th>
+              <th class="sort pointer" (click)="sortData('accDocNo')">เลขที่เอกสาร</th>
+              <th class="sort pointer" (click)="sortData('fiscYear')">ปีงบประมาณ</th>
+              <th class="sort ">เลขที่ใบกำกับสินค้า</th>
+              <th class="sort pointer" (click)="sortData('docType')">ประเภทเอกสาร</th>
+              <th class="sort pointer" (click)="sortData('paymentMethod')">วิธีการชำระเงิน</th>
+              <th class="sort ">กำหนดชำระเงิน</th>
+              <th class="sort pointer" (click)="sortData('amount')">จำนวนเงินขอเบิก</th>
+              <th class="sort">ผู้ขาย</th>
+              <th class="sort">เลขที่บัญชีธนาคาร</th>
+            </tr>
+            <tr *ngFor="let document of listDocument | paginate: { itemsPerPage: perPage, currentPage: p }; let i = index">
+              <td class="text-center">
+                <img
+                  src="assets/images/icon/record.gif"
+                  class="icon pointer"
+                  (click)="viewDocument(document.accDocNo, document.fiscYear)"
+                />
+              </td>
+              <td class="text-center">
+                <input type="checkbox" [checked]="document.approve" (click)="onClickCheckedDocument(i, 'approved')" />
+              </td>
+              <td class="td-not-approve text-center">
+                <input
+                  type="checkbox"
+                  data-toggle="collapse"
+                  [attr.data-target]="'#notApprove' + i"
+                  [checked]="document.notApprove"
+                  (click)="onClickCheckedDocument(i, 'notapproved')"
+                />
+                <div
+                  class="collapse box-not-approve"
+                  [ngClass]="{ 'd-none show': isBoxNotApproveShow }"
+                  [attr.id]="'notApprove' + i"
+                  data-parent="#groupRowCollapse"
+                >
+                  <label class="text-underline-red"> เหตุผลที่ไม่อนุมัติ </label>
+                  <input type="text" #reasonInput />
+                  <button type="button" data-toggle="collapse" [attr.data-target]="'#notApprove' + i" (click)="setReasonIntoDocument(i)">
+                    ตกลง
+                  </button>
+                  <button type="button" data-toggle="collapse" [attr.data-target]="'#notApprove' + i" (click)="cleanInputReason(i)">
+                    ยกเลิก
+                  </button>
+                </div>
+              </td>
+              <td class="text-center">{{ document.accDocNo }}</td>
+              <td class="text-center">{{ document.fiscYear | thaiyear }}</td>
+              <td class="text-center">{{ document.invDocNo }}</td>
+              <td class="text-center">{{ document.docType }}</td>
+              <td class="text-center">{{ document.paymentMethod }}</td>
+              <td class="text-center">{{ document.paymentMethod }}</td>
+              <td class="text-right">{{ document.amount | number: '1.2-2' }}</td>
+              <td class="text-center">{{ document.vendor }}</td>
+              <td class="text-center">{{ document.bankAccNo }}</td>
+            </tr>
+          </table>
+
+          <pagination-controls  previousLabel="<" nextLabel=">" (pageChange)="p = $event" *ngIf="listDocument.length > 0 && listDocument != null"></pagination-controls>
+          <div class="box-explain">
+            <div class="row row-fix">
+              <div class="col-1">คำอธิบาย:</div>
+              <div class="col-11">
+                <p>1. คลิกที่คอมลัมน์ที่มีเส้นใต้เพื่อจัดเรียงลำดับ</p>
+              </div>
+              <div class="col-1"></div>
+              <div class="col-11 d-flex">
+                <span> 2. </span> <img src="assets/images/icon/record.gif" class="icon pointer" /> <span> คลิกเพื่อแสดงเอกสาร </span>
+              </div>
+            </div>
+          </div>
+          <ul style="color:red">
+            <li *ngFor="let c of listValidate">{{ c }}</li>
+          </ul>
+          <div class="w-100 mx-auto text-center mt-4">
+            <button type="button" class="btn-light" (click)="selectAllApproved()">อนุมัติทุกรายการ</button>
+            <button type="button" class="btn-light" (click)="unselectAllApproved()">ยกเลิกอนุมัติทุกรายการ</button>
+            <button type="button" class="btn-light" (click)="selectAllNotApproved()">ยกเลิกไม่อนุมัติทุกรายการ</button>
+          </div>
+          <div class="w-100 mx-auto text-center mt-2">
+            <button type="button" class="btn-success" (click)="onPreSave()">บันทึกรายการ</button>
+          </div>
+        </div>
+      </mat-tab>
+    </mat-tab-group>
+
+    <div class="d-flex mt-4">
+      <div class="tab-button prev" *ngIf="selectedTabIndex != 0">
+        <button class="button" (click)="checkTab('prev')">
+          <span class="arrow"></span>
+          ก่อนหน้า
+        </button>
+      </div>
+      <div class="tab-button next" *ngIf="!(selectedTabIndex + 1 == tabAmount)">
+        <button class="button" (click)="checkTab('next')">
+          ถัดไป
+          <span class="arrow"></span>
+        </button>
+      </div>
+    </div>
+  </div>
+</form>

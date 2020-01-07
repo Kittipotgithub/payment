@@ -1,0 +1,30 @@
+export interface FiDocumentTable {
+  ACC_DOC_NO: string;
+  ACC_NO_VENDOR: string;
+  COMP_CODE: string;
+  COST_CENTER1: string;
+  COST_CENTER2: string;
+  CURRENCY_KEY: string;
+  DOC_DATE_DOC: string;
+  DOC_NO_EARMARK_FUNDS: string;
+  DOC_NO_INVO_REF: string;
+  DOC_NO_INVO_REF_REV: string;
+  DOC_STATUS: string;
+  DOC_TYPE: string;
+  FISC_PERIOD: string;
+  FISC_YEAR: string;
+  FLAG: string;
+  FORMID: string;
+  PAYEE: string;
+  PAYMENT_METHOD: string;
+  POST_DATE_DOC: string;
+  PURCHAS_DOC_NO: string;
+  REF_DOC_NO: string;
+  REV_REASON_POST: string;
+  SAVE_DATE_DOC: string;
+  SEARCH_TERM_EM: string;
+  SEARCH_TERM_NAME: string;
+  TIMESTAMP: string;
+  USERWEBONLINE: string;
+  ZZPMT: string;
+}

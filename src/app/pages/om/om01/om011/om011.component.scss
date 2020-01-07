@@ -1,0 +1,32 @@
+input[type="radio"] {
+  -webkit-appearance: checkbox; /* Chrome, Safari, Opera */
+  -moz-appearance: checkbox;    /* Firefox */
+  -ms-appearance: checkbox;     /* not currently supported */
+}
+table {
+  input[type="checkbox"] {
+    width: auto;
+  }
+}
+td.td-not-approve {
+  position: relative;
+  .box-not-approve {
+    z-index: 1000;
+    padding: 10px;
+    border: 2px dashed #21608c;
+    background: #f5e9bb;
+    position: absolute;
+    top: 0;
+    left: 50px;
+    color: white;
+    text-align: left;
+    min-width: 230px;
+    label {
+      margin: 0;
+    }
+    button {
+      margin: 0 !important;
+    }
+  }
+}
+

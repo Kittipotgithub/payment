@@ -1,0 +1,111 @@
+<div mat-dialog-title cdkDrag cdkDragRootElement=".cdk-overlay-pane" class="cursor-scroll dialog-result-save">
+  <mat-dialog-content>
+    <mat-form-field>
+      <div class="header-dialog topic" cdkDragHandle>
+        <label for=""> ผลการบันทึกรายการ </label>
+        <button type="button" class="close" (click)="onNoClick()">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="content-dialog overflow-y max-h-400">
+        <table class="table-normal table-presave w-1500" *ngIf="pathPage !== 'om03'">
+          <tr>
+            <th>ลำดับที่</th>
+            <th>สถานะ</th>
+            <th>คำอธิบาย</th>
+            <th>เลขที่เอกสาร</th>
+            <th>ปีงบประมาณ</th>
+            <th>เลขที่ใบกำกับภาสินค้า</th>
+            <th>ประเภทเอกสาร</th>
+            <th>วิธีชำระเงิน</th>
+            <th>กำหนดชำระเงิน</th>
+            <th>จำนวนเงินขอเบิก</th>
+            <th>ผู้ขาย</th>
+            <th>เลขที่บัญชีธนาคาร</th>
+            <th>อนุมัติ</th>
+            <th>ไม่อนุมัติ</th>
+            <th>เหตุผลกรณีไม่อนุมัติ</th>
+          </tr>
+          <tr *ngFor="let item of listResultPresave; let i = index">
+            <td>{{ i + 1 }}</td>
+            <td *ngIf="item.status === 'S'">สำเร็จ</td>
+            <td *ngIf="item.status === 'E'">ไม่สำเร็จ</td>
+            <td>{{ item.desc }}</td>
+            <td>{{ item.accDocNo }}</td>
+            <td>{{ item.fiscYear }}</td>
+            <td>{{ item.invDocNo }}</td>
+            <td>{{ item.docType }}</td>
+            <td>{{ item.paymentMethod }}</td>
+            <td>-</td>
+            <td>{{ item.amount | number: '1.2-2' }}</td>
+            <td>{{ item.vendor }}</td>
+            <td>{{ item.bankAccNo }}</td>
+            <td><input type="checkbox" [checked]="item.approval" disabled /></td>
+            <td><input type="checkbox" [checked]="item.reject" disabled /></td>
+            <td>{{ item.reason }}</td>
+          </tr>
+        </table>
+
+        <table class="table-normal table-presave w-1500" *ngIf="pathPage === 'om03'">
+          <tr>
+            <th>ลำดับที่</th>
+            <th>สถานะ</th>
+            <th>คำอธิบาย</th>
+            <th>รหัสหน่วยงาน</th>
+            <th>ปีงบประมาณ</th>
+            <th>ประเภท</th>
+            <th>เลขที่เอกสาร</th>
+            <th>บรรทัดรายการ</th>
+            <th>จำนวนเงิน</th>
+            <th>การอ้างอิง</th>
+            <th>วันที่เอกสาร</th>
+            <th>วันที่ผ่านรายการ</th>
+            <th>ศูนย์ต้นทุน</th>
+            <th>แหล่งของเงิน</th>
+            <th>รหัสจังหวัด</th>
+            <th>รหัสงบประมาณ</th>
+            <th>รหัสกิจกรรมหลัก</th>
+          </tr>
+          <tr *ngFor="let item of listResultPresave; let i = index">
+            <td>{{ i + 1 }}</td>
+            <td *ngIf="item.status === 'S'">สำเร็จ</td>
+            <td *ngIf="item.status === 'E'">ไม่สำเร็จ</td>
+            <td>{{ item.desc }}</td>
+            <td class="text-center">{{ item.compCode }}</td>
+            <td class="text-center">{{ item.fiscYear | thaiyear }}</td>
+            <td class="text-center">{{ item.docType }}</td>
+            <td class="text-center">{{ item.accDocNo }}</td>
+            <td class="text-center">{{ item.line | number: '3.0-0' }}</td>
+            <td class="text-center">{{ item.amount | number: '1.2-2' }}</td>
+            <td class="text-center">{{ item.refDocNo }}</td>
+            <td class="text-center">{{ item.dateDoc | thaidate }}</td>
+            <td class="text-center">{{ item.datePost | thaidate }}</td>
+            <td class="text-center">{{ item.costCenter }}</td>
+            <td class="text-center">{{ item.fundSource }}</td>
+            <td class="text-center">{{ item.bgArea }}</td>
+            <td class="text-center">{{ item.bgCode }}</td>
+            <td class="text-center">{{ item.bgActivity }}</td>
+          </tr>
+        </table>
+      </div>
+    </mat-form-field>
+  </mat-dialog-content>
+  <div *ngIf="!isSaveSuccess" class="modal-footer" mat-dialog-actions>
+    <button class="btn-info" (click)="onNoClick()">ปิด</button>
+    <!-- <button [disabled]="isPresaveSuccess" class="btn-success" (click)="onConfirmSave()">ดำเนินการต่อ</button>
+    <button class="btn-info" (click)="onSearchPage()">ค้นหาเอกสาร</button> -->
+  </div>
+  <div *ngIf="isSaveSuccess" class="modal-footer d-flex" mat-dialog-actions>
+    <button class="btn-info" (click)="onNoClick()">ปิด</button>
+    <!-- <div class="dropdown">
+      <button class="btn-info" type="button" id="printDocumentLog" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          Log
+      </button>
+      <div class="dropdown-menu" aria-labelledby="printDocument">
+        <p class="dropdown-item" (click)="printReport()">PDF</p>
+        <p class="dropdown-item" (click)="printReport()">XML</p>
+      </div>
+    </div> -->
+  </div>
+</div>
+<app-loading class="backdrop-loading" [isLoading]="isLoading"></app-loading>

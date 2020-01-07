@@ -1,0 +1,56 @@
+.icon-status {
+  position: absolute;
+  width: 15px;
+  height: 15px;
+  top: 0px;
+  right: -18px;
+}
+.icon-in-table {
+  top: 3px;
+  left: 50%;
+  transform: translate(-50%, 0px);
+}
+.apply-icon-unsuccess {
+  background: url('assets/images/icon/apply2_disable.gif');
+  background-size: contain;
+}
+.apply-icon-success {
+  background: url('assets/images/icon/apply2.gif');
+  background-size: contain;
+}
+.search-detail {
+  background: url('assets/images/icon/search.png');
+  background-size: contain;
+  min-width: 15px;
+  min-height: 15px;
+  background-repeat: no-repeat;
+  background-position: top;
+  cursor: pointer;
+}
+.icon-in-input {
+  top: 25%;
+  right: 13%;
+}
+.apply-icon-clear {
+  background: url('assets/images/icon/clear.png');
+  background-size: contain;
+}
+.icon-collpse-open {
+  background: url('assets/images/icon/plus.png');
+  width: 15px;
+  height: 15px;
+  color: white;
+  background-size: contain;
+  margin-left: 10px;
+  margin-top: 3px;
+}
+.icon-collpse-close {
+  background: url('assets/images/icon/minus.png');
+  width: 15px;
+  height: 15px;
+  color: white;
+  background-size: contain;
+  margin-left: 10px;
+  margin-top: 3px;
+}
+

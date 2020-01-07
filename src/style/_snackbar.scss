@@ -1,0 +1,16 @@
+snack-bar-container {
+  &.mat-snack-bar-container {
+    display: flex;
+    justify-content: center;
+    color: white;
+  }
+  &._warning {
+    background: #ea4857;
+  }
+  &._success {
+    background: rgba(46, 204, 113, .95);
+  }
+  span {
+    font-size: 18px;
+  }
+}

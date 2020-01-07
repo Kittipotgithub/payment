@@ -1,0 +1,91 @@
+@import "variables.scss";
+.header {
+  min-height: 30px;
+  background-color: #cfe5f2;
+  display: flex;
+  height: $header-height;
+  .head-left {
+    background: url('assets/images/img_headers/header_section_01.jpg');
+    min-height: $header-height;
+    width: $size-menu;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+  }
+  .head-right {
+    background: url('assets/images/img_headers/header_theme03.jpg');
+    min-height: $header-height;
+    width: 100%;
+    background-repeat: no-repeat;
+    background-size: contain;
+  }
+}
+
+
+#menuToggle span {
+  display: block;
+  width: 30px;
+  height: 4px;
+  margin-bottom: 5px;
+  position: relative;
+  background: #4c4b70;
+  border-radius: 3px;
+  z-index: 1;
+  transform-origin: 4px 0px;
+  transition: transform 0.5s cubic-bezier(0.77,0.2,0.05,1.0),
+              background 0.5s cubic-bezier(0.77,0.2,0.05,1.0),
+              opacity 0.55s ease;
+}
+
+#menuToggle span:first-child {
+  transform-origin: 0% 0%;
+}
+
+#menuToggle span:nth-last-child(2) {
+  transform-origin: 0% 100%;
+}
+
+#menuToggle.active span {
+  opacity: 1;
+  transform: rotate(45deg) translate(-6px, -14px);
+  background: #232323;
+}
+
+#menuToggle.active span:nth-last-child(3) {
+  opacity: 0;
+  transform: rotate(0deg) scale(0.2, 0.2);
+}
+
+#menuToggle.active span:nth-last-child(2) {
+  transform: rotate(-45deg) translate(-3px, 13px);
+}
+.btn-toggle-mobile {
+  display: none;
+}
+
+
+@media screen and (max-width: $break-ipadpro) {
+  .btn-toggle-mobile {
+    display: block;
+    position: absolute;
+    top: 5px;
+    left: 5px;
+    background: white;
+    padding: 7px 5px 5px 5px;
+    border-radius: 8px;
+    cursor: pointer;
+  }
+  .head-left {
+    display: none;
+  }
+}
+
+@media screen and (max-width: $break-ipad) {
+  .header {
+    height: 110px;
+    .head-left {
+      display: none;
+    }
+  }
+}
+

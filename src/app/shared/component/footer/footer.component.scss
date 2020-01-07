@@ -1,0 +1,29 @@
+@import "variables.scss";
+footer {
+  position: relative;
+  // position: absolute;
+  // bottom: 0;
+  // right: 0;
+  // left: 0;
+  color: white;
+  .footer-menu {
+    background-color: #112859;
+    position: absolute;
+    bottom: 0;
+    width: $size-menu;
+    min-height: $footer-height;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .footer-content {
+    text-align: right;
+    padding-right: 15px;
+    min-height: $footer-height;
+    background: black;
+    margin-left: $size-menu;
+    p {
+      margin: 0px;
+    }
+  }
+}

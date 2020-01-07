@@ -1,0 +1,13 @@
+<div class="content-menu-top">
+  <app-head-content></app-head-content>
+  <div class="list-menu-manage">
+    <a routerLink="/om01/om011" routerLinkActive="active"> {{ constant.BUTTON.create }} </a>
+    <div class="divine-horizontal"></div>
+    <a routerLink="/om01/om012" routerLinkActive="active"> {{ constant.BUTTON.search }} </a>
+  </div>
+  <div class="topic">
+    <h4> {{ topic }} </h4>
+    <span> {{ description }} </span>
+  </div>
+</div>
+<router-outlet></router-outlet>

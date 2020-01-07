@@ -1,0 +1,228 @@
+<div class="content-menu-top">
+  <div class="topic">
+    <h4>ขอรับแบบฟอร์ม</h4>
+    <span> Spreadsheet Template </span>
+  </div>
+</div>
+<div class="content-box">
+  <div class="row">
+    <div class="col-12 col-md-2"><label> หมวดแบบฟอร์ม </label></div>
+    <div class="col-12 col-md-4">
+      <select (change)="select($event.target.value)">
+        <option *ngFor="let item of constant.LIST_TYPE_SPREADSHEET" value={{item.id}}>{{ item.name }}
+        </option>
+      </select>
+    </div>
+  </div>
+</div>
+<!-- GL -->
+<div class="content-box" *ngIf="typeForm==='GL'">
+  <div class="row">
+    <div class="col-12 col-md-6">
+      <label> >> งบทดลอง - หน่วยงานอิสระและองค์กรมหาชน </label>
+    </div>
+    <div class="col-12 col-md-6">
+      <label> Download Template </label>
+      <a href="../../../assets/spreadsheet/GL/bc05.xls" download>
+        <p class="text-underline-green"> บช05 </p>
+      </a>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-12 col-md-6">
+      <label> >> งบทดลอง - หน่วยงานต่างประเทศ </label>
+    </div>
+    <div class="col-12 col-md-6">
+      <label> Download Template </label>
+      <a href="../../../assets/spreadsheet/GL/bc08.xls" download>
+        <p class="text-underline-green"> บช08 </p>
+      </a>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-12 col-md-6">
+      <label> >> งบทดลอง - โรงพยาบาลสังกัด สป.สธ. ที่ไม่ใช่หน่วยเบิกจ่าย </label>
+    </div>
+    <div class="col-12 col-md-6">
+      <label> Download Template </label>
+      <p class="text-underline-green"> บช09 </p>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-12 col-md-6">
+      <label> >> งบทดลอง - โรงพยาบาลสังกัด สป.สธ. ที่เป็นหน่วยเบิกจ่าย </label>
+    </div>
+    <div class="col-12 col-md-6">
+      <label> Download Template </label>
+      <a href="../../../assets/spreadsheet/GL/bc10.xls" download>
+        <p class="text-underline-green"> บช10 </p>
+      </a>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-12 col-md-6">
+      <label> >> งบทดลอง - เงินนอกงบประมาณของมหาวิทยาลัยที่เป็นส่วนราชการ </label>
+    </div>
+    <div class="col-12 col-md-6">
+      <label> Download Template </label>
+      <a href="../../../assets/spreadsheet/GL/bc11.xls" download>
+        <p class="text-underline-green"> บช11 </p>
+      </a>
+    </div>
+  </div>
+</div>
+<!-- AP -->
+<div class="content-box" *ngIf="typeForm==='AP'">
+  <div class="row">
+    <div class="col-12 col-md-6">
+      <label> >> ใบขอเบิกเงินงบประมาณที่ไม่อ้างใบสั่งซื้อฯ </label>
+    </div>
+    <div class="col-12 col-md-6">
+      <label> Download Template </label>
+      <a href="../../../assets/spreadsheet/AP/kb02.xls" download>
+        <p class="text-underline-green"> ขบ02 </p>
+      </a>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-12 col-md-6">
+      <label> >> ใบขอเบิกเงินนอกงบประมาณที่ไม่อ้างใบสั่งซื้อฯ </label>
+    </div>
+    <div class="col-12 col-md-6">
+      <label> Download Template </label>
+      <a href="../../../assets/spreadsheet/AP/kb03.xls" download>
+        <p class="text-underline-green"> ขบ03 </p>
+      </a>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-12 col-md-6">
+      <label> >> ใบขอเบิกเงินกู้ที่ไม่อ้างอิงใบสั่งซื้อฯ </label>
+    </div>
+    <div class="col-12 col-md-6">
+      <label> Download Template </label>
+      <a href="../../../assets/spreadsheet/AP/tk02.xls" download>
+        <p class="text-underline-green"> GFMIS ทข02 </p>
+      </a>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-12 col-md-6">
+      <label> >> รายการบันทึกการจ่ายชำระเงิน </label>
+    </div>
+    <div class="col-12 col-md-6">
+      <label> Download Template </label>
+      <a href="../../../assets/spreadsheet/AP/kj05.xls" download>
+        <p class="text-underline-green"> ขจ05 </p>
+      </a>
+    </div>
+  </div>
+</div>
+<!-- RP -->
+<div class="content-box" *ngIf="typeForm==='RP'">
+  <div class="row">
+    <div class="col-12 col-md-6">
+      <label> >> ใบรับเงินของหน่วยงาน </label>
+    </div>
+    <div class="col-12 col-md-6">
+      <label> Download Template </label>
+      <a href="../../../assets/spreadsheet/RP/ns01.xls" download>
+        <p class="text-underline-green"> นส01 </p>
+      </a>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-12 col-md-6">
+      <label> >> ใบนำส่งเงิน (แบบผ่านรายการ) </label>
+    </div>
+    <div class="col-12 col-md-6">
+      <label> Download Template </label>
+      <a href="../../../assets/spreadsheet/RP/ns02-1.xls" download>
+        <p class="text-underline-green"> นส02-1 </p>
+      </a>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-12 col-md-6">
+      <label> >> ใบนำส่งเงิน (แบบพักรายการ) </label>
+    </div>
+    <div class="col-12 col-md-6">
+      <label> Download Template </label>
+      <a href="../../../assets/spreadsheet/RP/ns02-2.xls" download>
+        <p class="text-underline-green"> นส02-2 </p>
+      </a>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-12 col-md-6">
+      <label> >> ใบรับเงินแทนกัน </label>
+    </div>
+    <div class="col-12 col-md-6">
+      <label> Download Template </label>
+      <a href="../../../assets/spreadsheet/RP/ns03.xls" download>
+        <p class="text-underline-green"> นส03 </p>
+      </a>
+    </div>
+  </div>
+</div>
+<!-- PO -->
+<div class="content-box" *ngIf="typeForm==='PO'">
+  <div class="row">
+    <div class="col-12 col-md-6">
+      <label> >> ใบสั่งซื้อ/จ้าง/เช่า </label>
+    </div>
+    <div class="col-12 col-md-6">
+      <label> Download Template </label>
+      <a href="../../../assets/spreadsheet/PO/bs01.xls" download>
+        <p class="text-underline-green"> บส01 </p>
+      </a>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-12 col-md-6">
+      <label> >> ใบสั่งซื้อ/จ้าง/เช่า </label>
+    </div>
+    <div class="col-12 col-md-6">
+      <label> Download Template </label>
+      <a href="../../../assets/spreadsheet/PO/bs01-1.xls" download>
+        <p class="text-underline-green"> บส01-1 </p>
+      </a>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-12 col-md-6">
+      <label> >> ใบสั่งซื้อ/จ้าง/เช่า </label>
+    </div>
+    <div class="col-12 col-md-6">
+      <label> Download Template </label>
+      <a href="../../../assets/spreadsheet/PO/bs01-egp.xls" download>
+        <p class="text-underline-green"> บส01-egp </p>
+      </a>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-12 col-md-6">
+      <label> >> ใบสั่งซื้อ/จ้าง/เช่า ประเภทการส่งมอบไม่แน่นอน </label>
+    </div>
+    <div class="col-12 col-md-6">
+      <label> Download Template </label>
+      <a href="../../../assets/spreadsheet/PO/bs04.xls" download>
+        <p class="text-underline-green"> บส04 </p>
+      </a>
+    </div>
+  </div>
+</div>
+<!-- VD -->
+<div class="content-box" *ngIf="typeForm==='VD'">
+  <div class="row">
+    <div class="col-12 col-md-6">
+      <label> >> ใบขอสร้างข้อมูลหลักผู้ขาย </label>
+    </div>
+    <div class="col-12 col-md-6">
+      <label> Download Template </label>
+      <a href="../../../assets/spreadsheet/VD/pk01.xls" download>
+        <p class="text-underline-green"> ผข01 </p>
+      </a>
+    </div>
+  </div>
+</div>

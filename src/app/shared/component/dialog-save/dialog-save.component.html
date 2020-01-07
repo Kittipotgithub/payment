@@ -1,0 +1,74 @@
+<div mat-dialog-title cdkDrag cdkDragRootElement=".cdk-overlay-pane" class="cursor-scroll">
+  <mat-dialog-content>
+    <mat-form-field>
+      <div class="header-dialog topic" cdkDragHandle>
+        <label for=""> ผลการบันทึกรายการ </label>
+        <button type="button" class="close" (click)="onNoClick()">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="content-dialog overflow-y max-h-400">
+        <div class="overflow-y max-h-400">
+          <table class="table-normal table-presave" *ngIf="isSaveSuccess">
+            <tr>
+              <th>ผลการบันทึก</th>
+              <th>เลขที่เอกสาร</th>
+              <th>รหัสหน่วยงาน</th>
+              <th>ปีบัญชี</th>
+            </tr>
+            <tr *ngIf="resultSave != null">
+              <td>สำเร็จ</td>
+              <td>{{ resultSave.accDocNo }}</td>
+              <td>{{ resultSave.compCode }}</td>
+              <td>{{ resultSave.fiscYear }}</td>
+            </tr>
+          </table>
+
+          <table class="table-normal table-presave" *ngIf="isPresaveSuccess && !isSaveSuccess">
+            <tr>
+              <th>ผลการบันทึก</th>
+              <th>รหัสข้อความ</th>
+              <th>คำอธิบาย</th>
+            </tr>
+            <tr *ngFor="let data of listResultPresave">
+              <td class="text-center">สำเร็จ</td>
+              <td>{{ data.code }}</td>
+              <td>{{ data.text }}</td>
+            </tr>
+          </table>
+
+          <table class="table-normal table-presave" *ngIf="!isPresaveSuccess && !isSaveSuccess">
+            <tr>
+              <th>ผลการบันทึก</th>
+              <th>รหัสข้อความ</th>
+              <th>คำอธิบาย</th>
+            </tr>
+            <tr *ngFor="let data of listResultPresave">
+              <td class="text-center">ไม่สำเร็จ</td>
+              <td>{{ data.code }}</td>
+              <td>{{ data.text }}</td>
+            </tr>
+          </table>
+        </div>
+      </div>
+    </mat-form-field>
+  </mat-dialog-content>
+  <div *ngIf="!isSaveSuccess" class="modal-footer" mat-dialog-actions>
+    <button [disabled]="!isPresaveSuccess" class="btn-success" (click)="onConfirmSave()">บันทึกข้อมูล</button>
+    <button (click)="onEditDocument()">กลับไปแก้ไขข้อมูล</button>
+    <button (click)="onClickExportXML()" class="btn-info">Export XML</button>
+    <button (click)="onClickExportJSON()" class="btn-info">Export JSON</button>
+  </div>
+  <div *ngIf="isSaveSuccess" class="modal-footer d-flex" mat-dialog-actions>
+    <button (click)="onDisplayDocument()" class="btn-primary">แสดงข้อมูล</button>
+    <button [disabled]="isSaveSuccess"(click)="onEditDocument()">กลับไปแก้ไขข้อมูล</button>
+    <button (click)="onCreateNewDocument()">สร้างเอกสารใหม่</button>
+    <button (click)="onSearchPage()" class="btn-info">ค้นหาเอกสาร</button>
+    <div class="dropdown">
+      <button class="btn-info" type="button" id="printDocumentLog" (click)="printReport('pdf')">
+        พิมพ์รายงาน
+      </button>
+    </div>
+  </div>
+</div>
+<app-loading class="backdrop-loading" [isLoading]="isLoading"></app-loading>

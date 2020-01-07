@@ -1,0 +1,199 @@
+<div class="content-box">
+  <div class="content-detail">
+    <div class="content-border">
+      <span class="topic-header"> <strong> ค้นหา </strong> </span>
+      <form [formGroup]="om022FormSearch">
+        <mat-tab-group class="row-border mat-tap-style-2">
+          <mat-tab label="ค้นหาตามเลขที่เอกสาร">
+            <div class="row">
+              <div class="col-md-2">
+                <label class="text-underline-red"> เลขที่เอกสารขอเบิก </label>
+              </div>
+              <div class="col-md-4">
+                <input class="form-control" appNumberOnly numericType="number" type="text" maxlength="10" formControlName="docNoFrom" />
+              </div>
+              <div class="col-md-1 text-right">
+                <label> ถึง </label>
+              </div>
+              <div class="col-md-4">
+                <input class="form-control" appNumberOnly numericType="number" type="text" maxlength="10" formControlName="docNoTo" />
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-2">
+                <label class="text-underline-blue"> ปีงบประมาณ </label>
+              </div>
+              <div class="col-md-4">
+                <select class="form-control" formControlName="yearBudgetFrom">
+                  <option *ngFor="let item of constant.LIST_YEAR" [ngValue]="item.id">{{ item.name }}</option>
+                </select>
+              </div>
+              <div class="col-md-1 text-right">
+                <label> ถึง </label>
+              </div>
+              <div class="col-md-4">
+                <select class="form-control" formControlName="yearBudgetTo">
+                  <option *ngFor="let item of constant.LIST_YEAR" [ngValue]="item.id">{{ item.name }}</option>
+                </select>
+              </div>
+            </div>
+            <ul style="color:red">
+              <li *ngFor="let c of listValidate">{{ c }}</li>
+            </ul>
+            <ul style="color:red">
+              <li *ngFor="let c of listMessageResponse">{{ c }}</li>
+            </ul>
+            <div class="row mx-auto border-t-black">
+              <div class="mx-auto">
+                <button type="button" class="btn-info" (click)="onSearch('normal')">แสดงรายการ</button>
+              </div>
+            </div>
+          </mat-tab>
+          <mat-tab label="ค้นหาตามเงื่อนไขอื่น">
+            <div class="row">
+              <div class="col-md-2">
+                <select class="form-control select-searchType" formControlName="searchType">
+                  <option *ngFor="let item of constant.LIST_TYPE_SEARCH_CONDITION" [ngValue]="item.id">{{ item.name }} </option>
+                </select>
+              </div>
+              <div class="col-md-4">
+                <mat-form-field class="d-flex">
+                  <input
+                    readonly
+                    matInput
+                    class="form-control date-mat-input"
+                    [matDatepicker]="typeSearchConditionDateFrom"
+                    formControlName="conditionFrom"
+                    (dateChange)="onChangeConditionFrom($event)"
+                  />
+                  <mat-datepicker-toggle matSuffix [for]="typeSearchConditionDateFrom"></mat-datepicker-toggle>
+                  <mat-datepicker #typeSearchConditionDateFrom [calendarHeaderComponent]="datePickerHeader"></mat-datepicker>
+                </mat-form-field>
+              </div>
+              <div class="col-md-1 text-right">
+                <label> ถึง </label>
+              </div>
+              <div class="col-md-4">
+                <mat-form-field class="d-flex">
+                  <input
+                    readonly
+                    matInput
+                    class="form-control date-mat-input"
+                    [matDatepicker]="typeSearchConditionDateTo"
+                    formControlName="conditionTo"
+                    [matDatepickerFilter]="minFilter"
+                  />
+                  <mat-datepicker-toggle matSuffix [for]="typeSearchConditionDateTo"></mat-datepicker-toggle>
+                  <mat-datepicker #typeSearchConditionDateTo [calendarHeaderComponent]="datePickerHeader"></mat-datepicker>
+                </mat-form-field>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-2">
+                <label class="text-underline-green"> รหัสประจำตัวผู้เสียภาษี (ผู้ขาย) </label>
+              </div>
+              <div class="col-md-4">
+                <input class="form-control" type="text" maxlength="13" formControlName="citizenIdFrom" />
+              </div>
+              <div class="col-md-1 text-right">
+                <label> ถึง </label>
+              </div>
+              <div class="col-md-4">
+                <input class="form-control" type="text" maxlength="13" formControlName="citizenIdTo" />
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-2">
+                <label class="text-underline-green"> ประเภทเอกสาร </label>
+              </div>
+              <div class="col-md-4">
+                <select class="form-control" formControlName="docTypeFrom">
+                  <option *ngFor="let item of constant.LIST_DOC_TYPE_SEARCH_OM" [ngValue]="item.id">{{ item.name }} </option>
+                </select>
+              </div>
+              <div class="col-md-1 text-right">
+                <label> ถึง </label>
+              </div>
+              <div class="col-md-4">
+                <select class="form-control" formControlName="docTypeTo">
+                  <option *ngFor="let item of constant.LIST_DOC_TYPE_SEARCH_OM" [ngValue]="item.id">{{ item.name }} </option>
+                </select>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-2">
+                <label class="text-underline-green"> วิธีการชำระเงิน </label>
+              </div>
+              <div class="col-md-4">
+                <select class="form-control" formControlName="payMethodFrom">
+                  <option *ngFor="let item of constant.LIST_PAYMENT_OM" [ngValue]="item.id">{{ item.name }} </option>
+                </select>
+              </div>
+              <div class="col-md-1  text-right">
+                <label> ถึง </label>
+              </div>
+              <div class="col-md-4">
+                <select class="form-control" formControlName="payMethodTo">
+                  <option *ngFor="let item of constant.LIST_PAYMENT_OM" [ngValue]="item.id">{{ item.name }} </option>
+                </select>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-2">
+                <label class="text-underline-green"> สถานะ </label>
+              </div>
+              <div class="col-md-4">
+                <select class="form-control" formControlName="status">
+                  <option *ngFor="let item of constant.LIST_STATUS" [ngValue]="item.id">{{ item.name }} </option>
+                </select>
+              </div>
+            </div>
+            <ul style="color:red">
+              <li *ngFor="let c of listMessageResponse">{{ c }}</li>
+            </ul>
+            <div class="row mx-auto border-t-black">
+              <div class="mx-auto">
+                <button type="button" class="btn-info" (click)="onSearch('condition')">แสดงรายการ</button>
+              </div>
+            </div>
+          </mat-tab>
+        </mat-tab-group>
+      </form>
+      <div *ngIf="listDocument.length > 0 && listDocument != null">
+        <div class="description_table">
+          จัดลำดับตาม <strong> {{ sortBy }} </strong> จาก <strong> {{ orderBy === 'ASC' ? 'จากน้อยไปมาก' : 'จากมากไปน้อย' }}</strong>
+        </div>
+        <div class="description_table">
+          หน้าที่ <strong> {{ p }} </strong> จากทั้งหมด <strong> {{ listDocument.length }} </strong>
+        </div>
+        <table class="table-normal text-center">
+          <tr>
+            <th>เลือก</th>
+            <th class="sort">เลขที่ใบบันทึกรายการบัญชี</th>
+            <th class="sort sort pointer" (click)="sortData('fiscYear')">ปีงบประมาณ </th>
+
+            <th class="sort">ประเภทเอกสาร</th>
+
+            <th class="sort">จำนวนเงิน</th>
+            <th class="sort">สถานะ</th>
+          </tr>
+          <tr *ngFor="let document of listDocument | paginate: { itemsPerPage: constant.PER_PAGINATION, currentPage: p }; let i = index">
+            <td align="center">
+              <img src="assets/images/icon/record.gif" class="icon pointer" (click)="viewDocument(document.accDocNo, document.fiscYear)" />
+            </td>
+            <td>{{ document.accDocNo }}</td>
+            <td>{{ document.fiscYear | thaiyear }}</td>
+
+            <td>{{ document.docType }}</td>
+
+            <td>{{ document.amount | number: '1.2-2' }}</td>
+            <td *ngIf="document.decision === 'Y'">อนุมัติ</td>
+            <td *ngIf="document.decision === 'N'">ไม่อนุมัติ</td>
+          </tr>
+        </table>
+
+        <pagination-controls  previousLabel="<" nextLabel=">" (pageChange)="p = $event" *ngIf="listDocument.length > 0 && listDocument != null"></pagination-controls>
+      </div>
+    </div>
+  </div>
+</div>

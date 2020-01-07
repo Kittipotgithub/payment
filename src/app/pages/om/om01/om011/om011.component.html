@@ -1,0 +1,316 @@
+<form [formGroup]="om011FormCreate">
+  <div class="content-box">
+    <div class="content-detail">
+      <div class="bg-topic-1 mt-4">
+        <label class="text-black"> Selection Criteria </label>
+      </div>
+      <div class="row">
+        <div class="col-md-2">
+          <label class="text-black"> รหัสหน่วยงาน </label>
+        </div>
+        <div class="col-md-4">
+          <input class="form-control " type="text" maxlength="5" formControlName="departmentCodeFrom" />
+        </div>
+        <div class="col-md-1 text-right">
+          <label> ถึง </label>
+        </div>
+        <div class="col-md-4">
+          <input class="form-control " type="text" maxlength="5" formControlName="departmentCodeTo" />
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-2">
+          <label class="text-black"> รหัสจังหวัด </label>
+        </div>
+        <div class="col-md-4">
+          <input class="form-control " type="text" maxlength="4" formControlName="provinceCodeFrom" />
+        </div>
+        <div class="col-md-1 text-right">
+          <label> ถึง </label>
+        </div>
+        <div class="col-md-4">
+          <input class="form-control " type="text" maxlength="4" formControlName="provinceCodeTo" />
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-2">
+          <label class="text-black"> ปีบัญชี </label>
+        </div>
+        <div class="col-md-4">
+          <input class="form-control " type="text" maxlength="4" formControlName="yearAccount" />
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-2">
+          <label class="text-black"> รหัสจังหวัด </label>
+        </div>
+        <div class="col-md-4">
+          <input class="form-control " type="text" maxlength="4" formControlName="provinceCodeFrom" />
+        </div>
+        <div class="col-md-1 text-right">
+          <label> ถึง </label>
+        </div>
+        <div class="col-md-4">
+          <input class="form-control " type="text" maxlength="4" formControlName="provinceCodeTo" />
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-2">
+          <label class="text-black"> วันผ่านรายการ </label>
+        </div>
+        <div class="col-md-4">
+          <mat-form-field class="d-flex">
+            <input readonly class="form-control date-mat-input" matInput [matDatepicker]="postDateFrom"
+              formControlName="postDateFrom" (dateChange)="onChangeConditionFrom($event)" />
+            <mat-datepicker-toggle matSuffix [for]="postDateFrom"></mat-datepicker-toggle>
+            <mat-datepicker #postDateFrom [calendarHeaderComponent]="datePickerHeader"></mat-datepicker>
+          </mat-form-field>
+        </div>
+        <div class="col-md-1 text-right">
+          <label> ถึง </label>
+        </div>
+        <div class="col-md-4">
+          <mat-form-field class="d-flex">
+            <input readonly class="form-control date-mat-input" matInput [matDatepicker]="postDateTo"
+              formControlName="postDateTo" [matDatepickerFilter]="minFilter" />
+            <mat-datepicker-toggle matSuffix [for]="postDateTo"></mat-datepicker-toggle>
+            <mat-datepicker #postDateTo [calendarHeaderComponent]="datePickerHeader"></mat-datepicker>
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-2">
+          <label class="text-black"> ผู้ขาย </label>
+        </div>
+        <div class="col-md-4">
+          <input class="form-control " type="text" maxlength="13" formControlName="vendorTaxIdFrom" />
+        </div>
+        <div class="col-md-1 text-right">
+          <label> ถึง </label>
+        </div>
+        <div class="col-md-4">
+          <input class="form-control " type="text" maxlength="13" formControlName="vendorTaxIdTo" />
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-2">
+          <label class="text-black"> หน่วยเบิกจ่าย </label>
+        </div>
+        <div class="col-md-4">
+          <input class="form-control " type="text" maxlength="10" formControlName="disbursementCodeFrom" />
+        </div>
+        <div class="col-md-1 text-right">
+          <label> ถึง </label>
+        </div>
+        <div class="col-md-4">
+          <input class="form-control " type="text" maxlength="10" formControlName="disbursementCodeTo" />
+        </div>
+      </div>
+
+      <div class="bg-topic-1 mt-4">
+        <label class="text-black"> Addition Selection </label>
+      </div>
+      <div class="row">
+        <div class="col-md-2">
+          <label class="text-black"> ประเภทเอกสาร </label>
+        </div>
+        <div class="col-md-4">
+          <select class="form-control " formControlName="docTypeFrom">
+            <option *ngFor="let item of constant.LIST_DOC_TYPE_OM" [ngValue]="item.id">{{ item.name }} </option>
+          </select>
+        </div>
+        <div class="col-md-1 text-right">
+          <label> ถึง </label>
+        </div>
+        <div class="col-md-4">
+          <select class="form-control " formControlName="docTypeTo">
+            <option *ngFor="let item of constant.LIST_DOC_TYPE_OM" [ngValue]="item.id">{{ item.name }} </option>
+          </select>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-2">
+          <label class="text-black"> วิธีการชำระเงิน </label>
+        </div>
+        <div class="col-md-4">
+          <input class="form-control " type="text" maxlength="1" formControlName="payMethodFrom" />
+        </div>
+        <div class="col-md-1 text-right">
+          <label> ถึง </label>
+        </div>
+        <div class="col-md-4">
+          <input class="form-control " type="text" maxlength="1" formControlName="payMethodTo" />
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-2">
+          <label class="text-black"> วันที่เอกสาร </label>
+        </div>
+        <div class="col-md-4">
+          <mat-form-field class="d-flex">
+            <input readonly class="form-control date-mat-input" matInput [matDatepicker]="documentDateFrom"
+              formControlName="documentDateFrom" (dateChange)="onChangeConditionFrom($event)" />
+            <mat-datepicker-toggle matSuffix [for]="documentDateFrom"></mat-datepicker-toggle>
+            <mat-datepicker #documentDateFrom [calendarHeaderComponent]="datePickerHeader"></mat-datepicker>
+          </mat-form-field>
+        </div>
+        <div class="col-md-1 text-right">
+          <label> ถึง </label>
+        </div>
+        <div class="col-md-4">
+          <mat-form-field class="d-flex">
+            <input readonly class="form-control date-mat-input" matInput [matDatepicker]="documentDateTo"
+              formControlName="documentDateTo" [matDatepickerFilter]="minFilter" />
+            <mat-datepicker-toggle matSuffix [for]="documentDateTo"></mat-datepicker-toggle>
+            <mat-datepicker #documentDateTo [calendarHeaderComponent]="datePickerHeader"></mat-datepicker>
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-2">
+          <label class="text-black"> วันที่บันทึก </label>
+        </div>
+        <div class="col-md-4">
+          <mat-form-field class="d-flex">
+            <input readonly class="form-control date-mat-input" matInput [matDatepicker]="documentCreateDateFrom"
+              formControlName="documentCreateDateFrom" (dateChange)="onChangeConditionFrom($event)" />
+            <mat-datepicker-toggle matSuffix [for]="documentCreateDateFrom"></mat-datepicker-toggle>
+            <mat-datepicker #documentCreateDateFrom [calendarHeaderComponent]="datePickerHeader"></mat-datepicker>
+          </mat-form-field>
+        </div>
+        <div class="col-md-1 text-right">
+          <label> ถึง </label>
+        </div>
+        <div class="col-md-4">
+          <mat-form-field class="d-flex">
+            <input readonly class="form-control date-mat-input" matInput [matDatepicker]="documentCreateDateTo"
+              formControlName="documentCreateDateTo" [matDatepickerFilter]="minFilter" />
+            <mat-datepicker-toggle matSuffix [for]="documentCreateDateTo"></mat-datepicker-toggle>
+            <mat-datepicker #documentCreateDateTo [calendarHeaderComponent]="datePickerHeader"></mat-datepicker>
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-2">
+          <label class="text-black"> แยกประเภทพิเศษ </label>
+        </div>
+        <div class="col-md-4">
+          <input class="form-control " type="text" maxlength="1" formControlName="specialTypeFrom" />
+        </div>
+        <div class="col-md-1 text-right">
+          <label> ถึง </label>
+        </div>
+        <div class="col-md-4">
+          <input class="form-control " type="text" maxlength="1" formControlName="specialTypeTo" />
+        </div>
+      </div>
+      <div class="bg-topic-1 mt-4">
+        <label class="text-black"> โครงร่างรายงาน</label>
+      </div>
+      <div class="row">
+        <div class="col-md-2">
+          <label class="text-black"> โครงร่าง </label>
+        </div>
+        <div class="col-md-4">
+          <input class="form-control " type="text" maxlength="1" formControlName="outline" />
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row mx-auto border-t-black">
+    <div class="mx-auto">
+      <button type="button" class="btn-info" (click)="onSearch()">แสดงรายการ</button>
+    </div>
+  </div>
+  <div class="content-box">
+    <div *ngIf="listDocument.length > 0 && listDocument != null">
+      <div class="description_table">
+        จัดลำดับตาม <strong> {{ sortBy }} </strong> จาก <strong>
+          {{ orderBy === 'ASC' ? 'จากน้อยไปมาก' : 'จากมากไปน้อย' }}</strong>
+      </div>
+      <div class="description_table">
+        หน้าที่ <strong> {{ p }} </strong> จากทั้งหมด <strong> {{ listDocument.length }} </strong>
+      </div>
+      <table class="table-normal table-presave table-h-underline" id="groupRowCollapse">
+        <tr>
+          <th>รายการ</th>
+          <th class="sort">อนุมัติ</th>
+          <th class="sort">ไม่อนุมัติ</th>
+          <th class="sort pointer" (click)="sortData('accDocNo')">Err WTinfo</th>
+          <th class="sort pointer" (click)="sortData('fiscYear')">หัก</th>
+          <th class="sort ">ประเภท</th>
+          <th class="sort pointer" (click)="sortData('docType')">เลขเอกสาร</th>
+          <th class="sort pointer" (click)="sortData('paymentMethod')">เลขอ้างอิง</th>
+          <th class="sort ">ปี</th>
+          <th class="sort pointer" (click)="sortData('amount')">การอ้างอิง</th>
+          <th class="sort">ว/ท เอกสาร</th>
+          <th class="sort">Posting Date</th>
+        </tr>
+        <tr *ngFor="let document of listDocument | paginate: { itemsPerPage: perPage, currentPage: p }; let i = index">
+          <!-- <td class="text-center">
+            <img src="assets/images/icon/record.gif" class="icon pointer"
+              (click)="viewDocument(document.accDocNo, document.fiscYear)" />
+          
+          </td> -->
+          <td class="text-left">{{ document.lineNo }}</td>
+          <td class="text-center">
+            <input type="checkbox" [checked]="document.approve" (click)="onClickCheckedDocument(i, 'approved')" />
+          </td>
+          <td class="td-not-approve text-center">
+            <input type="checkbox" data-toggle="collapse" [attr.data-target]="'#notApprove' + i"
+              [checked]="document.notApprove" (click)="onClickCheckedDocument(i, 'notapproved')" />
+            <div class="collapse box-not-approve" [ngClass]="{ 'd-none show': isBoxNotApproveShow }"
+              [attr.id]="'notApprove' + i" data-parent="#groupRowCollapse">
+              <label class="text-underline-red"> เหตุผลที่ไม่อนุมัติ </label>
+              <input type="text" #reasonInput />
+              <button type="button" data-toggle="collapse" [attr.data-target]="'#notApprove' + i"
+                (click)="setReasonIntoDocument(i)">
+                ตกลง
+              </button>
+              <button type="button" data-toggle="collapse" [attr.data-target]="'#notApprove' + i"
+                (click)="cleanInputReason(i)">
+                ยกเลิก
+              </button>
+            </div>
+          </td>
+          <td class="text-center">{{ document.info }}</td>
+          <td class="text-center">{{ document.diff }}</td>
+          <td class="text-center">{{ document.documentType }}</td>
+          <td class="text-center">{{ document.documentNo }}</td>
+          <td class="text-center">{{ document.year }}</td>
+          <td class="text-center">{{ document.referenceNo }}</td>
+          <td class="text-center">{{ document.referenceText }}</td>
+          <td class="text-center">{{ document.documentDate| date: 'dd.MM.yyyy' }}</td>
+          <td class="text-center">{{ document.postDate | date: 'dd.MM.yyyy'}}</td>
+        </tr>
+      </table>
+
+      <pagination-controls previousLabel="<" nextLabel=">" (pageChange)="p = $event"
+        *ngIf="listDocument.length > 0 && listDocument != null"></pagination-controls>
+      <!-- <div class="box-explain">
+        <div class="row row-fix">
+          <div class="col-1">คำอธิบาย:</div>
+          <div class="col-11">
+            <p>1. คลิกที่คอมลัมน์ที่มีเส้นใต้เพื่อจัดเรียงลำดับ</p>
+          </div>
+          <div class="col-1"></div>
+          <div class="col-11 d-flex">
+            <span> 2. </span> <img src="assets/images/icon/record.gif" class="icon pointer" /> <span>
+              คลิกเพื่อแสดงเอกสาร </span>
+          </div>
+        </div>
+      </div> -->
+      <ul style="color:red">
+        <li *ngFor="let c of listValidate">{{ c }}</li>
+      </ul>
+      <div class="w-100 mx-auto text-center mt-4">
+        <button type="button" class="btn-light" (click)="selectAllApproved()">อนุมัติทุกรายการ</button>
+        <button type="button" class="btn-light" (click)="unselectAllApproved()">ยกเลิกอนุมัติทุกรายการ</button>
+        <button type="button" class="btn-light" (click)="selectAllNotApproved()">ยกเลิกไม่อนุมัติทุกรายการ</button>
+      </div>
+      <div class="w-100 mx-auto text-center mt-2">
+        <button type="button" class="btn-success" (click)="onPreSave()">บันทึกรายการ</button>
+      </div>
+    </div>
+  </div>
+</form>

@@ -1,0 +1,63 @@
+export interface UserData {
+  username: string;
+  ministryCode: string;
+  departmentCode: string;
+  areaCode: string;
+  channel: string;
+  divisionCode: string;
+  costCenterId: string;
+  purchasingGroupId: string;
+  position: string;
+  email: string;
+  activeCode: string;
+  status: string;
+  lastLogin: string;
+  webAuthorize: string;
+  firstLogin: string;
+  firstLoginDate: string;
+  firstname: string;
+  lastname: string;
+  authApproval: string;
+  corossattbs: string;
+  idempiere: string;
+  active: string;
+
+  departmentName: string;
+  divisionName: string;
+  purchasingName: string;
+  costCenterName: string;
+
+  paymentCenters: [];
+
+  // AD_USERNAME: string;
+  // AD_MINISTRYCODE: string;
+  // AD_DEPARTMENTCODE: string;
+  // AD_AREACODE: string;
+  // AD_CHANNEL: string;
+  // AD_DIVISIONCODE: string;
+  // AD_COSTCENTERID: string;
+  // AD_PURCHASINGGROUPID: string;
+  // AD_CREATEDDATE: string;
+  // AD_EXPIREDATE: string;
+  // AD_TELEPHONENUMBER: string;
+  // AD_DATAUPDATE: string;
+  // AD_UPDATEBY: string;
+  // AD_POSITION: string;
+  // AD_EMAIL: string;
+  // AD_ACTIVECODE: string;
+  // AD_STATUS: string;
+  // AD_LASTLOGIN: string;
+  // AD_WEBAUTHORIZE: string;
+  // AD_FIRSTLOGIN: string;
+  // AD_FIRSTLOGINDATE: string;
+  // AD_FIRSTNAME: string;
+  // AD_LASTNAME: string;
+  // AD_AUTHAPPROVAL: string;
+  // AD_COROSSATTBS: string;
+  // AD_IDEMPIERE: string;
+  // AD_MINISTRYNAME: string;
+  // AD_DEPARTMENTNAME: string;
+  // AD_AREANAME: string;
+  // AD_DIVISIONNAME: string;
+  // AD_COSTCENTERNAME: string;
+}

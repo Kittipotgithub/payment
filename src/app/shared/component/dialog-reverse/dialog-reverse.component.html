@@ -1,0 +1,53 @@
+<div mat-dialog-title cdkDrag cdkDragRootElement=".cdk-overlay-pane" class="cursor-scroll">
+  <mat-dialog-content>
+    <mat-form-field>
+      <div class="header-dialog topic" cdkDragHandle>
+        <label for=""> ผลการกลับรายการ </label>
+        <button type="button" class="close" (click)="onNoClick()">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="content-dialog overflow-y max-h-400">
+        <table class="table-normal table-presave" *ngIf="tableSucces">
+          <tr>
+            <th> รหัสหน่วยงาน </th>
+            <th> ประเภทเอกสาร </th>
+            <th> เลขที่เอกสาร </th>
+            <th> ปีบัญชี </th>
+            <th> ประเภทเอกสารกลับรายการ </th>
+            <th> เลขที่เอกสารกลับรายการ </th>
+            <th> ปีที่กลับรายการ </th>
+          </tr>
+          <tr *ngFor="let data of listResult">
+            <td> {{ data.compCode }}  </td>
+            <td> {{ data.docType }}  </td>
+            <td> {{ data.accDocNo }}  </td>
+            <td> {{ data.fiscYear }}  </td>
+            <td> {{ data.revDocType }}  </td>
+            <td> {{ data.revAccDocNo }}  </td>
+            <td> {{ data.revFiscYear }}  </td>
+          </tr>
+        </table>
+        <table class="table-normal table-presave text-center" *ngIf="!tableSucces">
+          <tr>
+            <th> ผลการบันทึก </th>
+            <th> รหัสข้อความ </th>
+            <th> คำอธิบาย </th>
+          </tr>
+          <tr *ngFor="let data of listResultError">
+            <td> ไม่สำเร็จ  </td>
+            <td> {{ data.code }} </td>
+            <td> {{ data.text }} </td>
+          </tr>
+        </table>
+      </div>
+    </mat-form-field>
+  </mat-dialog-content>
+  <div class="modal-footer" mat-dialog-actions>
+    <button (click)="save()" class="btn-success" *ngIf="!tableSucces" [disabled]="!tableSucces">บันทึกข้อมูล</button>
+    <button (click)="searchInfo()" class="btn-info" *ngIf="tableSucces">แสดงข้อมูล</button>
+    <button (click)="onNoClick()" *ngIf="!tableSucces">กลับไปแก้ไขข้อมูล</button>
+    <button > Export XML </button>
+  </div>
+</div>
+<app-loading class="backdrop-loading" [isLoading]="isLoading"></app-loading>

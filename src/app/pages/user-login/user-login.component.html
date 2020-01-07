@@ -1,0 +1,43 @@
+<div *ngIf="userProfile$ | async; let user; else: loading">
+  <p>{{ user?.userdata?.username }}</p>
+</div>
+
+<ng-template #loading>
+  <!-- Loading stuff... -->
+  <form [formGroup]="login">
+    <div class="login">
+      <div class="container">
+        <div class="row justify-content-center align-items-center login-row">
+          <div class="col-md-6 login-column">
+            <div class="col-md-12 login-box">
+              <!-- <form id="login-form" class="form" action="" method="post"> -->
+              <h3 class="text-center text-info">Login</h3>
+              <div class="form-group">
+                <label for="username" class="text-info">Username:</label><br />
+                <input type="text" name="username" id="username" class="form-control" formControlName="username" />
+                <label for="password" class="text-info">Password:</label><br />
+                <input type="password" name="password" id="password" class="form-control" formControlName="password" />
+              </div>
+              <!-- <div class="form-group">
+                <label for="password" class="text-info">Password:</label><br>
+                <input type="text" name="password" id="password" class="form-control">
+              </div> -->
+
+              <div class="form-group">
+                <input type="button" name="submit" class="btn btn-info btn-md" value="เข้าสู่ระบบ"
+                  (click)="submitClick()" />
+              </div>
+              <ul style="color:red">
+                <li *ngFor="let c of listValidate">{{ c }}</li>
+              </ul>
+              <!-- <div id="register-link" class="text-right">
+                  <a href="#" class="text-info">Register here</a>
+              </div> -->
+              <!-- </form> -->
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+</ng-template>

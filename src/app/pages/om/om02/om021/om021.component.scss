@@ -1,0 +1,21 @@
+
+td.td-not-approve {
+    position: relative;
+    .box-not-approve {
+      padding: 10px;
+      border: 2px dashed #21608c;
+      background: #f5e9bb;
+      position: absolute;
+      top: 0;
+      left: 25px;
+      color: white;
+      text-align: left;
+      min-width: 230px;
+      label {
+        margin: 0;
+      }
+      button {
+        margin: 0 !important;
+      }
+    }
+  }

@@ -1,0 +1,92 @@
+.pointer {
+  cursor: pointer;
+}
+.cursor-scroll {
+  // cursor: all-scroll;
+}
+.disabled {
+  color: #636769;
+  pointer-events: none;
+}
+
+.w-1500 {
+  width: 1500px !important;
+}
+.main {
+  width: 100%;
+}
+
+.radio-inline {
+  align-items: center;
+  input {
+    width: auto;
+  }
+  span {
+    width: 100%;
+    padding-left: 10px;
+  }
+}
+.input-with-unit {
+  input {
+    text-align: right;
+  }
+  span {
+    padding-left: 10px;
+    display: flex;
+    align-items: center;
+  }
+}
+.input-with-year {
+  select {
+    max-width: 100px;
+    margin-right: 10px;
+  }
+  span {
+    padding-left: 110px;
+    width: 100%;
+  }
+}
+.input-none-border {
+  border: 0;
+  pointer-events: none;
+  padding: 0;
+  height: auto !important;
+  background-color: transparent !important;
+}
+.border-light {
+  border: 1px solid $bg-second;
+}
+.row-fix {
+  margin: 0px;
+}
+.divine-horizontal {
+  background-color: black;
+  width: 1px;
+}
+.border-b {
+  border-bottom: 1px solid $border-content;
+}
+
+
+
+.alert {
+  padding: 3px 5px;
+  margin: 0;
+}
+
+.flex-1 {
+  flex: 1;
+}
+.overflow-y {
+  overflow-y: auto;
+}
+
+
+.xml-form {
+  font-size: 12px;
+  min-height: 450px;
+}
+
+.min-height {
+  min-height: 140px;
+}

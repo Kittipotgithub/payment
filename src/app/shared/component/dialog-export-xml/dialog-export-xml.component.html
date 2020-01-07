@@ -1,0 +1,21 @@
+<div mat-dialog-title cdkDrag cdkDragRootElement=".cdk-overlay-pane" class="cursor-scroll">
+  <mat-dialog-content>
+    <mat-form-field>
+      <div class="header-dialog topic" cdkDragHandle>
+        <label class="text-black"> Export XML </label>
+        <button type="button" class="close" (click)="onNoClick()">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="content-dialog overflow-y max-h-400">
+        <textarea class="form-control w-100 xml-form" readonly="readonly" #xmlText>{{ data.xml_text | xml_beautify }}
+        </textarea>
+      </div>
+    </mat-form-field>
+  </mat-dialog-content>
+  <div class="modal-footer" mat-dialog-actions>
+    <button (click)="copyToClipBoard(xmlText)">Copy to clipboard</button>
+    <button (click)="onNoClick()">ปิด</button>
+  </div>
+</div>
+<app-loading class="backdrop-loading" [isLoading]="isLoading"></app-loading>

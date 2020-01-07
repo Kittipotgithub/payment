@@ -1,0 +1,47 @@
+.text-bold {
+  font-weight: bold;
+}
+.text-underline {
+  text-decoration: underline;
+}
+.text-blue {
+  color: $font-blue;
+}
+.text-green {
+  color: $font-green;
+}
+.text-red {
+  color: $font-red;
+}
+.text-black {
+  color: black;
+}
+.text-dark-grey {
+  color: #666666;
+}
+.text-greenlight {
+  font-weight: bold;
+  color: $font-greenlight;
+}
+.text-underline-blue {
+  font-weight: bold;
+  text-decoration: underline;
+  color: $font-blue;
+}
+.text-underline-red {
+  font-weight: bold;
+  text-decoration: underline;
+  color: $font-red;
+  position: relative;
+  // set * after text set .text-underline-red
+  // &:after {
+  //   content: "*";
+  //   position: absolute;
+  //   right: -10px;
+  // }
+}
+.text-underline-green {
+  font-weight: bold;
+  text-decoration: underline;
+  color: $font-green;
+}
