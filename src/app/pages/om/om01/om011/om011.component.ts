@@ -28,6 +28,7 @@ export class Om011Component implements OnInit, AfterViewInit {
   @ViewChildren('reasonInput') reasonInput: QueryList<ElementRef>;
   @ViewChild('tabRef', { static: true }) tabRef: MatTabGroup;
 
+
   om011FormCreate: FormGroup;
   departmentCodeFromControl: FormControl; // รหัสหน่วยงาน
   departmentCodeToControl: FormControl; // รหัสหน่วยงาน
@@ -165,7 +166,7 @@ export class Om011Component implements OnInit, AfterViewInit {
   onSearch() {
     const form = this.om011FormCreate.value;
 
-    const data = {
+    let data = {
       lineNo: 1,
       approve: false,
       notApprove: false,
@@ -174,17 +175,49 @@ export class Om011Component implements OnInit, AfterViewInit {
       documentType: 'KE',
       documentNo: '3200000040',
       referenceNo: '3200000041',
-      yearr:'2020',
+      year: '2019',
       referenceText: 'TEST04',
-      documentDate:new Date(),
-      postDate:new Date()
+      documentDate: new Date(),
+      postDate: new Date()
 
+
+    }
+    let data1 = {
+      lineNo: 2,
+      approve: false,
+      notApprove: false,
+      info: '',
+      diff: 'หัก',
+      documentType: 'KL',
+      documentNo: '3600000040',
+      referenceNo: '',
+      year: '2020',
+      referenceText: 'KLเลื่อม',
+      documentDate: new Date(),
+      postDate: new Date()
+
+
+    }
+    let data2 = {
+      lineNo: 3,
+      approve: false,
+      notApprove: false,
+      info: '',
+      diff: '',
+      documentType: 'KC',
+      documentNo: '3100000040',
+      referenceNo: '',
+      year: '2020',
+      referenceText: 'PK200',
+      documentDate: new Date(),
+      postDate: new Date()
 
     }
 
     this.listDocument.push(data)
-    this.listDocument.push(data)
-    this.listDocument.push(data)
+    this.listDocument.push(data1)
+    this.listDocument.push(data2)
+
   }
 
   search(payload) {
@@ -234,15 +267,17 @@ export class Om011Component implements OnInit, AfterViewInit {
   }
 
   setReasonIntoDocument(index) {
+    console.log('index')
+    console.log('index')
     const value = this.reasonInput.toArray()[index].nativeElement.value;
     this.listDocument[index].reason = value;
-    this.isBoxNotApproveShow = true;
+    // this.isBoxNotApproveShow = true;
   }
 
   cleanInputReason(index) {
     this.reasonInput.toArray()[index].nativeElement.value = '';
     this.listDocument[index].reason = '';
-    this.isBoxNotApproveShow = true;
+    // this.isBoxNotApproveShow = true;
   }
 
   onPreSave() {
@@ -370,6 +405,7 @@ export class Om011Component implements OnInit, AfterViewInit {
   }
 
   onClickCheckedDocument(index, type) {
+    console.log(index)
     if (this.p != 1) {
       index = this.p * this.perPage - (this.perPage - index);
     }
@@ -391,6 +427,8 @@ export class Om011Component implements OnInit, AfterViewInit {
       }
       this.listDocument[index].approve = false;
     }
+   
+    console.log(this.listDocument)
   }
 
   tabChanged(tabChangeEvent: MatTabChangeEvent): void {
