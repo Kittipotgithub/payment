@@ -1,3 +1,4 @@
+import { PaymentService } from './../../../../core/services/payment/payment.service';
 import { FormGroup, FormControl, FormBuilder } from '@angular/forms';
 import { Component, OnInit, ElementRef, ViewChild, QueryList, ViewChildren, AfterViewInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
@@ -84,7 +85,8 @@ export class Om011Component implements OnInit, AfterViewInit {
     private globalObject: GlobalObject,
     private dialog: MatDialog,
     private router: Router,
-    private loadingScreenService: LoadingScreenService
+    private loadingScreenService: LoadingScreenService,
+    private paymentService: PaymentService,
   ) { this.loadingScreenService.loadingToggleStatus(true) }
 
   ngOnInit() {
@@ -93,8 +95,8 @@ export class Om011Component implements OnInit, AfterViewInit {
     ).subscribe(() => {
       // this.newDocument();
     });
-    this.userProfile = this.localStorageService.getUserProfile();
-    this.webInfo = this.localStorageService.getWebInfo();
+    // this.userProfile = this.localStorageService.getUserProfile();
+    // this.webInfo = this.localStorageService.getWebInfo();
     this.createFormControl();
     this.createFormGroup();
     this.constant.LIST_YEAR = this.utils.CalculateYear();
@@ -110,9 +112,9 @@ export class Om011Component implements OnInit, AfterViewInit {
     this.departmentCodeToControl = this.formBuilder.control(''); // รหัสหน่วยงาน
     this.provinceCodeFromControl = this.formBuilder.control(''); // รหัสจังหวัด
     this.provinceCodeToControl = this.formBuilder.control(''); // รหัสจังหวัด
-    this.yearAccountControl = this.formBuilder.control(''); // ปีบัญชี
-    this.postDateFromControl = this.formBuilder.control(''); // วันผ่านรายการ
-    this.postDateToControl = this.formBuilder.control(''); // วันผ่านรายการ
+    this.yearAccountControl = this.formBuilder.control(this.utils.fisc_year); // ปีบัญชี
+    this.postDateFromControl = this.formBuilder.control(new Date()); // วันผ่านรายการ
+    this.postDateToControl = this.formBuilder.control(new Date()); // วันผ่านรายการ
     this.vendorTaxIdFromControl = this.formBuilder.control(''); // ผุ้ขาย
     this.vendorTaxIdToControl = this.formBuilder.control(''); // ผุ้ขาย
     this.disbursementCodeFromControl = this.formBuilder.control(''); // รหัสหน่วยเบิกจ่าย
@@ -122,10 +124,10 @@ export class Om011Component implements OnInit, AfterViewInit {
     this.docTypeToControl = this.formBuilder.control(''); // ประเภทเอกสาร
     this.payMethodFromControl = this.formBuilder.control(''); // วิธีชำระเงิน
     this.payMethodToControl = this.formBuilder.control(''); // วิธีชำระเงิน
-    this.documentDateFromControl = this.formBuilder.control(''); // วันที่เอกสาร
-    this.documentDateToControl = this.formBuilder.control(''); // วันที่เอกสาร
-    this.documentCreateDateFromControl = this.formBuilder.control(''); // วันที่บันทึก
-    this.documentCreateDateToControl = this.formBuilder.control(''); // วันที่บันทึก
+    this.documentDateFromControl = this.formBuilder.control(new Date()); // วันที่เอกสาร
+    this.documentDateToControl = this.formBuilder.control(new Date()); // วันที่เอกสาร
+    this.documentCreateDateFromControl = this.formBuilder.control(new Date()); // วันที่บันทึก
+    this.documentCreateDateToControl = this.formBuilder.control(new Date()); // วันที่บันทึก
     this.specialTypeFromControl = this.formBuilder.control(''); // แยกประเภทพิเศษ
     this.specialTypeToControl = this.formBuilder.control(''); // แยกประเภทพิเศษ
 
@@ -166,77 +168,103 @@ export class Om011Component implements OnInit, AfterViewInit {
   onSearch() {
     const form = this.om011FormCreate.value;
 
-    let data = {
-      lineNo: 1,
-      approve: false,
-      notApprove: false,
-      info: '',
-      diff: 'หัก',
-      documentType: 'KE',
-      documentNo: '3200000040',
-      referenceNo: '3200000041',
-      year: '2019',
-      referenceText: 'TEST04',
-      documentDate: new Date(),
-      postDate: new Date()
+    // let data = {
+    //   lineNo: 1,
+    //   approve: false,
+    //   notApprove: false,
+    //   info: '',
+    //   diff: 'หัก',
+    //   documentType: 'KE',
+    //   documentNo: '3200000040',
+    //   referenceNo: '3200000041',
+    //   year: '2019',
+    //   referenceText: 'TEST04',
+    //   documentDate: new Date(),
+    //   postDate: new Date()
 
 
+    // }
+    // let data1 = {
+    //   lineNo: 2,
+    //   approve: false,
+    //   notApprove: false,
+    //   info: '',
+    //   diff: 'หัก',
+    //   documentType: 'KL',
+    //   documentNo: '3600000040',
+    //   referenceNo: '',
+    //   year: '2020',
+    //   referenceText: 'KLเลื่อม',
+    //   documentDate: new Date(),
+    //   postDate: new Date()
+
+
+    // }
+    // let data2 = {
+    //   lineNo: 3,
+    //   approve: false,
+    //   notApprove: false,
+    //   info: '',
+    //   diff: '',
+    //   documentType: 'KC',
+    //   documentNo: '3100000040',
+    //   referenceNo: '',
+    //   year: '2020',
+    //   referenceText: 'PK200',
+    //   documentDate: new Date(),
+    //   postDate: new Date()
+
+    // }
+
+    // this.listDocument.push(data)
+    // this.listDocument.push(data1)
+    // this.listDocument.push(data2)
+
+    const data = {
+      compCodeFrom: '',
+      compCodeTo: '',
+      fiAreaFrom: '',
+      fiAreaTo: '',
+      fiscalYear: '',
+      dateAcctFrom: '',
+      dateAcctTo: '',
+      bPartnerFrom: '',
+      bPartnerTo: '',
+      paymentCenterFrom: '',
+      paymentCenterTo: '',
+      docTypeFrom: '',
+      docTypeTo: '',
+      paymentMethodFrom: '',
+      paymentMethodTo: '',
+      dateDocFrom: '',
+      dateDocTo: '',
+      dateCreatedFrom: '',
+      dateCreatedTo: '',
+      specialGlFrom: '',
+      specialGlTo: ''
     }
-    let data1 = {
-      lineNo: 2,
-      approve: false,
-      notApprove: false,
-      info: '',
-      diff: 'หัก',
-      documentType: 'KL',
-      documentNo: '3600000040',
-      referenceNo: '',
-      year: '2020',
-      referenceText: 'KLเลื่อม',
-      documentDate: new Date(),
-      postDate: new Date()
-
-
-    }
-    let data2 = {
-      lineNo: 3,
-      approve: false,
-      notApprove: false,
-      info: '',
-      diff: '',
-      documentType: 'KC',
-      documentNo: '3100000040',
-      referenceNo: '',
-      year: '2020',
-      referenceText: 'PK200',
-      documentDate: new Date(),
-      postDate: new Date()
-
-    }
-
-    this.listDocument.push(data)
-    this.listDocument.push(data1)
-    this.listDocument.push(data2)
+    this.search(data)
 
   }
 
   search(payload) {
     this.loadingScreenService.loadingToggleStatus(true)
     this.listDocument = [];
-    this.fiService.changePaymentBlock(payload).subscribe(data => {
+    this.paymentService.searchPaymentBlock(payload).subscribe(data => {
       this.loadingScreenService.loadingToggleStatus(false)
       this.isDataSearchloaded = true;
       const response = data as any;
       const result = response.data;
-      if (result.items) {
-        if (result.items.length > 0 && result.items.length <= 500) {
-          this.listDocument = result.items;
+      console.log(result)
+      if (result) {
+        if (result.length > 0 && result.length <= 500) {
+          this.listDocument = result;
           this.selectedTabIndex = 1;
           this.listDocument.forEach(document => {
             document.approve = false;
             document.notApprove = false;
           });
-        } else if (result.items.length > 500) {
+        } else if (result.length > 500) {
           this.listMessageResponse.push('ไม่สามารถแสดงผลการค้นหาเกิน 500 รายการได้ กรุณาเปลี่ยนเงื่อนไขการค้นหาใหม่');
         } else {
           this.listMessageResponse.push('ไม่พบเอกสาร');
@@ -427,7 +455,7 @@ export class Om011Component implements OnInit, AfterViewInit {
       }
       this.listDocument[index].approve = false;
     }
-   
+
     console.log(this.listDocument)
   }
 
@@ -447,14 +475,14 @@ export class Om011Component implements OnInit, AfterViewInit {
     window.open(url, 'name', 'width=1200,height=700');
   }
 
-  onChangeConditionFrom(e) {
-    const form = this.om011FormCreate.value
-    if (form.conditionFrom > form.conditionTo) {
-      this.om011FormCreate.patchValue({
-        conditionTo: e.value,
-      });
-    }
-  }
+  // onChangeConditionFrom(e) {
+  //   const form = this.om011FormCreate.value
+  //   if (form.conditionFrom > form.conditionTo) {
+  //     this.om011FormCreate.patchValue({
+  //       conditionTo: e.value,
+  //     });
+  //   }
+  // }
 
   minFilter = (d: Date): boolean => {
     const from = new Date(this.om011FormCreate.get('conditionFrom').value);

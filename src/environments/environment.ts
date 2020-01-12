@@ -5,8 +5,8 @@
 export const environment = {
   production: false,
   // apiUrl: 'http://183.90.168.77/api2',
-  apiUrl: 'http://wol-dev-ws01.in.gfmis.go.th/api',
-  // apiUrl: 'http://localhost:8080/api',
+  // apiUrl: 'http://wol-dev-ws01.in.gfmis.go.th/api',
+  apiUrl: 'http://localhost:8080/payment-service/api',
   // apiUrl: 'http://nerves.thddns.net:5456/api'
   // apiUrl: 'http://192.168.1.91:8080/api'
 };

@@ -9,13 +9,27 @@
           <label class="text-black"> รหัสหน่วยงาน </label>
         </div>
         <div class="col-md-4">
-          <input class="form-control " type="text" maxlength="5" formControlName="departmentCodeFrom" />
+          <div class="input-group">
+            <input class="form-control " type="text" maxlength="5" formControlName="departmentCodeFrom" />
+            <div class="input-group-append button-group-search">
+              <button class="btn btn-info" (click)="openDialogSearch('departmentCodeFrom')" type="button">
+                <img src="assets/images/icon/fa-search.svg" width="12px" />
+              </button>
+            </div>
+          </div>
         </div>
         <div class="col-md-1 text-right">
           <label> ถึง </label>
         </div>
         <div class="col-md-4">
-          <input class="form-control " type="text" maxlength="5" formControlName="departmentCodeTo" />
+          <div class="input-group">
+            <input class="form-control " type="text" maxlength="5" formControlName="departmentCodeTo" />
+            <div class="input-group-append button-group-search">
+              <button class="btn btn-info" (click)="openDialogSearch('departmentCodeFrom')" type="button">
+                <img src="assets/images/icon/fa-search.svg" width="12px" />
+              </button>
+            </div>
+          </div>
         </div>
       </div>
       <div class="row">
@@ -23,13 +37,27 @@
           <label class="text-black"> รหัสจังหวัด </label>
         </div>
         <div class="col-md-4">
-          <input class="form-control " type="text" maxlength="4" formControlName="provinceCodeFrom" />
+          <div class="input-group">
+            <input class="form-control " type="text" maxlength="4" formControlName="provinceCodeFrom" />
+            <div class="input-group-append button-group-search">
+              <button class="btn btn-info" (click)="openDialogSearch('departmentCodeFrom')" type="button">
+                <img src="assets/images/icon/fa-search.svg" width="12px" />
+              </button>
+            </div>
+          </div>
         </div>
         <div class="col-md-1 text-right">
           <label> ถึง </label>
         </div>
         <div class="col-md-4">
-          <input class="form-control " type="text" maxlength="4" formControlName="provinceCodeTo" />
+          <div class="input-group">
+            <input class="form-control " type="text" maxlength="4" formControlName="provinceCodeTo" />
+            <div class="input-group-append button-group-search">
+              <button class="btn btn-info" (click)="openDialogSearch('departmentCodeFrom')" type="button">
+                <img src="assets/images/icon/fa-search.svg" width="12px" />
+              </button>
+            </div>
+          </div>
         </div>
       </div>
       <div class="row">
@@ -37,10 +65,13 @@
           <label class="text-black"> ปีบัญชี </label>
         </div>
         <div class="col-md-4">
-          <input class="form-control " type="text" maxlength="4" formControlName="yearAccount" />
+          <!-- <input class="form-control " type="text" maxlength="4" formControlName="yearAccount" /> -->
+          <select class="form-control" formControlName="yearAccount">
+            <option *ngFor="let item of constant.LIST_YEAR" [ngValue]="item.id">{{ item.name }}</option>
+          </select>
         </div>
       </div>
-      <div class="row">
+      <!-- <div class="row">
         <div class="col-md-2">
           <label class="text-black"> รหัสจังหวัด </label>
         </div>
@@ -53,7 +84,7 @@
         <div class="col-md-4">
           <input class="form-control " type="text" maxlength="4" formControlName="provinceCodeTo" />
         </div>
-      </div>
+      </div> -->
       <div class="row">
         <div class="col-md-2">
           <label class="text-black"> วันผ่านรายการ </label>
@@ -61,7 +92,7 @@
         <div class="col-md-4">
           <mat-form-field class="d-flex">
             <input readonly class="form-control date-mat-input" matInput [matDatepicker]="postDateFrom"
-              formControlName="postDateFrom" (dateChange)="onChangeConditionFrom($event)" />
+              formControlName="postDateFrom" />
             <mat-datepicker-toggle matSuffix [for]="postDateFrom"></mat-datepicker-toggle>
             <mat-datepicker #postDateFrom [calendarHeaderComponent]="datePickerHeader"></mat-datepicker>
           </mat-form-field>
@@ -72,7 +103,7 @@
         <div class="col-md-4">
           <mat-form-field class="d-flex">
             <input readonly class="form-control date-mat-input" matInput [matDatepicker]="postDateTo"
-              formControlName="postDateTo" [matDatepickerFilter]="minFilter" />
+              formControlName="postDateTo" />
             <mat-datepicker-toggle matSuffix [for]="postDateTo"></mat-datepicker-toggle>
             <mat-datepicker #postDateTo [calendarHeaderComponent]="datePickerHeader"></mat-datepicker>
           </mat-form-field>
@@ -83,13 +114,27 @@
           <label class="text-black"> ผู้ขาย </label>
         </div>
         <div class="col-md-4">
-          <input class="form-control " type="text" maxlength="13" formControlName="vendorTaxIdFrom" />
+          <div class="input-group">
+            <input class="form-control " type="text" maxlength="13" formControlName="vendorTaxIdFrom" />
+            <div class="input-group-append button-group-search">
+              <button class="btn btn-info" (click)="openDialogSearch('departmentCodeFrom')" type="button">
+                <img src="assets/images/icon/fa-search.svg" width="12px" />
+              </button>
+            </div>
+          </div>
         </div>
         <div class="col-md-1 text-right">
           <label> ถึง </label>
         </div>
         <div class="col-md-4">
-          <input class="form-control " type="text" maxlength="13" formControlName="vendorTaxIdTo" />
+          <div class="input-group">
+            <input class="form-control " type="text" maxlength="13" formControlName="vendorTaxIdTo" />
+            <div class="input-group-append button-group-search">
+              <button class="btn btn-info" (click)="openDialogSearch('departmentCodeFrom')" type="button">
+                <img src="assets/images/icon/fa-search.svg" width="12px" />
+              </button>
+            </div>
+          </div>
         </div>
       </div>
       <div class="row">
@@ -97,13 +142,27 @@
           <label class="text-black"> หน่วยเบิกจ่าย </label>
         </div>
         <div class="col-md-4">
-          <input class="form-control " type="text" maxlength="10" formControlName="disbursementCodeFrom" />
+          <div class="input-group">
+            <input class="form-control " type="text" maxlength="10" formControlName="disbursementCodeFrom" />
+            <div class="input-group-append button-group-search">
+              <button class="btn btn-info" (click)="openDialogSearch('departmentCodeFrom')" type="button">
+                <img src="assets/images/icon/fa-search.svg" width="12px" />
+              </button>
+            </div>
+          </div>
         </div>
         <div class="col-md-1 text-right">
           <label> ถึง </label>
         </div>
         <div class="col-md-4">
-          <input class="form-control " type="text" maxlength="10" formControlName="disbursementCodeTo" />
+          <div class="input-group">
+            <input class="form-control " type="text" maxlength="10" formControlName="disbursementCodeTo" />
+            <div class="input-group-append button-group-search">
+              <button class="btn btn-info" (click)="openDialogSearch('departmentCodeFrom')" type="button">
+                <img src="assets/images/icon/fa-search.svg" width="12px" />
+              </button>
+            </div>
+          </div>
         </div>
       </div>
 
@@ -115,6 +174,8 @@
           <label class="text-black"> ประเภทเอกสาร </label>
         </div>
         <div class="col-md-4">
+
+
           <select class="form-control " formControlName="docTypeFrom">
             <option *ngFor="let item of constant.LIST_DOC_TYPE_OM" [ngValue]="item.id">{{ item.name }} </option>
           </select>
@@ -160,7 +221,7 @@
         <div class="col-md-4">
           <mat-form-field class="d-flex">
             <input readonly class="form-control date-mat-input" matInput [matDatepicker]="documentDateTo"
-              formControlName="documentDateTo" [matDatepickerFilter]="minFilter" />
+              formControlName="documentDateTo" (dateChange)="onChangeConditionFrom($event)" />
             <mat-datepicker-toggle matSuffix [for]="documentDateTo"></mat-datepicker-toggle>
             <mat-datepicker #documentDateTo [calendarHeaderComponent]="datePickerHeader"></mat-datepicker>
           </mat-form-field>
@@ -173,7 +234,7 @@
         <div class="col-md-4">
           <mat-form-field class="d-flex">
             <input readonly class="form-control date-mat-input" matInput [matDatepicker]="documentCreateDateFrom"
-              formControlName="documentCreateDateFrom" (dateChange)="onChangeConditionFrom($event)" />
+              formControlName="documentCreateDateFrom" />
             <mat-datepicker-toggle matSuffix [for]="documentCreateDateFrom"></mat-datepicker-toggle>
             <mat-datepicker #documentCreateDateFrom [calendarHeaderComponent]="datePickerHeader"></mat-datepicker>
           </mat-form-field>
@@ -184,7 +245,7 @@
         <div class="col-md-4">
           <mat-form-field class="d-flex">
             <input readonly class="form-control date-mat-input" matInput [matDatepicker]="documentCreateDateTo"
-              formControlName="documentCreateDateTo" [matDatepickerFilter]="minFilter" />
+              formControlName="documentCreateDateTo" />
             <mat-datepicker-toggle matSuffix [for]="documentCreateDateTo"></mat-datepicker-toggle>
             <mat-datepicker #documentCreateDateTo [calendarHeaderComponent]="datePickerHeader"></mat-datepicker>
           </mat-form-field>
@@ -242,7 +303,7 @@
           <th class="sort pointer" (click)="sortData('docType')">เลขเอกสาร</th>
           <th class="sort ">ปี</th>
           <th class="sort pointer" (click)="sortData('paymentMethod')">เลขอ้างอิง</th>
-        
+
           <th class="sort pointer" (click)="sortData('amount')">การอ้างอิง</th>
           <th class="sort">ว/ท เอกสาร</th>
           <th class="sort">Posting Date</th>

@@ -24,7 +24,7 @@ export class AppComponent implements OnInit, AfterViewInit {
   ngOnInit() { }
 
   ngAfterViewInit(): void {
-    this.loadAreaCode();
+    // this.loadAreaCode();
   }
 
   loadAreaCode() {

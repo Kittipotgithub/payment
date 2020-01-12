@@ -6,7 +6,7 @@ import { SharedModule } from '@shared/shared.module';
 
 import { ReactiveFormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { MatTabsModule, MatNativeDateModule, MatDatepickerModule, MatExpansionModule } from '@angular/material';
+import { MatTabsModule, MatNativeDateModule, MatDatepickerModule, MatExpansionModule, MatAutocompleteModule } from '@angular/material';
 import { NgxPaginationModule } from 'ngx-pagination';
 
 import { AppRoutingModule } from 'app/app-routing.module';
@@ -24,7 +24,8 @@ import { AppRoutingModule } from 'app/app-routing.module';
     MatNativeDateModule,
     MatDatepickerModule,
     MatExpansionModule,
-    NgxPaginationModule
+    NgxPaginationModule,
+    MatAutocompleteModule
   ]
 })
 export class PagesModule {}
