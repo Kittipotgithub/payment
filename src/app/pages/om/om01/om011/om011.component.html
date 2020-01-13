@@ -174,11 +174,21 @@
           <label class="text-black"> ประเภทเอกสาร </label>
         </div>
         <div class="col-md-4">
+          <mat-form-field>
+            <input type="text" name="docTypeFrom" id="docTypeFrom" class="form-control" formControlName="docTypeFrom" 
+              [formControl]="docTypeFromControl"
+              [matAutocomplete]="auto"/>
+              <mat-autocomplete #auto="matAutocomplete">
+                <mat-option *ngFor="let option of filteredOptions | async" [value]="option.name">
+                  {{option.name}}
+                </mat-option>
+              </mat-autocomplete>
+          </mat-form-field>
 
 
-          <select class="form-control " formControlName="docTypeFrom">
+          <!-- <select class="form-control " formControlName="docTypeFrom">
             <option *ngFor="let item of constant.LIST_DOC_TYPE_OM" [ngValue]="item.id">{{ item.name }} </option>
-          </select>
+          </select> -->
         </div>
         <div class="col-md-1 text-right">
           <label> ถึง </label>

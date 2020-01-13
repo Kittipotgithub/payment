@@ -1,7 +1,7 @@
 import { CurrencyPipe } from './shared/pipe/currency.pipe';
 import { NgModule } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
-import { MatNativeDateModule } from '@angular/material';
+import { MatNativeDateModule, MatAutocompleteModule } from '@angular/material';
 import { MAT_DATE_LOCALE } from '@angular/material/core';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
@@ -46,7 +46,8 @@ import { Utils } from './shared/utils';
     NgxPaginationModule,
     MatProgressBarModule,
     MatTooltipModule,
-    MatSnackBarModule
+    MatSnackBarModule,
+    MatAutocompleteModule
   ],
   exports: [NgxPaginationModule],
   providers: [GlobalObject, Constant, FormBuilder, Utils,CurrencyPipe, 

@@ -19,6 +19,9 @@ import { WebInfo } from '@core/models/web-info';
 import { FiService } from '@core/services/fi/fi.service';
 import { UserProfile } from '@core/models/user-profile';
 import { LoadingScreenService } from '@core/services/loading-screen/loading-screen.service';
+
+import { map, startWith } from 'rxjs/operators';
+import { Observable, Subject } from 'rxjs';
 @Component({
   selector: 'app-om011',
   templateUrl: './om011.component.html',
@@ -76,6 +79,9 @@ export class Om011Component implements OnInit, AfterViewInit {
   userProfile: UserProfile;
   public datePickerHeader = DatepickerHeaderComponent;
 
+
+  // options: string[] = ['120050000100', '120050000200', '120050000300'];
+  filteredOptions: Observable<string[]>;
   constructor(
     public constant: Constant,
     private formBuilder: FormBuilder,
@@ -101,8 +107,17 @@ export class Om011Component implements OnInit, AfterViewInit {
     this.createFormGroup();
     this.constant.LIST_YEAR = this.utils.CalculateYear();
     this.loadingScreenService.loadingToggleStatus(false)
-  }
 
+    this.filteredOptions = this.docTypeFromControl.valueChanges
+      .pipe(
+        startWith(''),
+        map(value => this._filter(value))
+      );
+  }
+  private _filter(value: string): any {
+    const filterValue = value.toLowerCase();
+    return this.constant.LIST_DOC_TYPE_OM.filter(test => test.name.toLocaleLowerCase().includes(filterValue))
+  }
   ngAfterViewInit(): void {
     // this.tabAmount = this.tabRef._tabs.length;
   }
