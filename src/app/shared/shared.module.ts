@@ -30,6 +30,7 @@ import { DialogExportJsonComponent } from './component/dialog-export-json/dialog
 import { UpperCaseDirectiveDirective } from './directives/upper-case-directive.directive';
 import { DialogUserGuideComponent } from './component/dialog-user-guide/dialog-user-guide.component';
 import { PostingKeyPipe } from './pipe/posting-key.pipe';
+import { DialogDetailDocumentComponent } from './component/dialog-detail-document/dialog-detail-document.component';
 
 
 @NgModule({
@@ -68,6 +69,8 @@ import { PostingKeyPipe } from './pipe/posting-key.pipe';
     UpperCaseDirectiveDirective,
 
     DialogUserGuideComponent,
+
+    DialogDetailDocumentComponent,
 
    
   ],

@@ -1,0 +1,140 @@
+<div mat-dialog-title cdkDrag cdkDragRootElement=".cdk-overlay-pane" class="cursor-scroll">
+  <mat-dialog-content>
+    <mat-form-field>
+      <div class="header-dialog topic" cdkDragHandle>
+        <label for=""> ภาพรวมของเอกสาร - แสดง </label>
+        <button type="button" class="close" (click)="onNoClick()">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="content-box">
+        <div *ngIf="documentDetail" class="content-item">
+          <div class="content-detail mb-4">
+            <div class="row">
+              <div class="col-12 col-md-2"><label class="text-black"> เลขที่เอกสาร </label>
+              </div>
+              <div class="col-12 col-md-3">
+                <p>{{ documentDetail.docNo }}</p>
+              </div>
+              <div class="col-12 col-md-2"><label class="text-black"> รหัสบริษัท </label></div>
+              <div class="col-12 col-md-2">
+                <p>{{ documentDetail.compCode }}</p>
+              </div>
+              <div class="col-12 col-md-2"><label class="text-black"> ปีบัญชี </label>
+              </div>
+              <div class="col-12 col-md-2">
+                <p>{{ documentDetail.fiscalYear }}</p>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-12 col-md-2"><label class="text-black"> ว/ทเอกสาร </label>
+              </div>
+              <div class="col-12 col-md-3">
+                <p>{{ docNoFromSearchDetail }}</p>
+              </div>
+              <div class="col-12 col-md-2"><label class="text-black"> วันผ่านรายการ </label></div>
+              <div class="col-12 col-md-2">
+                <p>{{ docStatus }}</p>
+              </div>
+              <div class="col-12 col-md-2"><label class="text-black"> งวด </label>
+              </div>
+              <div class="col-12 col-md-2">
+                <p>{{ docNoFromSearchDetail }}</p>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-12 col-md-2"><label class="text-black"> เอก.อิง </label>
+              </div>
+              <div class="col-12 col-md-3">
+                <p>{{ docNoFromSearchDetail }}</p>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-12 col-md-2"><label class="text-black"> สง.ในเอกสาร </label>
+              </div>
+              <div class="col-12 col-md-3">
+                <p>{{ docNoFromSearchDetail }}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="mt-4">
+          <table class="table-normal table-result">
+            <tr>
+              <th>รายการ</th>
+              <th class="sort">PK</th>
+              <th class="sort">บัญชี</th>
+              <th class="sort">ข้อความแบบสั้นทาง บ/ช</th>
+              <th class="sort">จำนวนเงินใน LC</th>
+              <th class="sort">ศ.ต้นทุน</th>
+              <th class="sort">หน่วย บ/จ</th>
+              <th class="sort">วันคิ</th>
+              <th class="sort">Tr.Prt</th>
+              <th class="sort">Ref.ke</th>
+              <th class="sort">Ref.ke</th>
+              <th class="sort">คีย์การอ</th>
+            </tr>
+            <tbody>
+              <tr *ngFor="let item of listDocument ; let i = index">
+                <td>{{ ((p - 1) * constant.PER_PAGINATION) + (i + 1) }}</td>
+
+
+                <td>{{ item.postingKey }}</td>
+                <td>{{ item.account  }}</td>
+                <td>{{ item.lineDescription  }}</td>
+                <td>{{ item.amount  }}</td>
+                <td>{{ item.costCenter  }}</td>
+                <td>{{ item.paymentCenter  }}</td>
+                <td>{{ item.lineDescription  }}</td>
+                <td>{{ item.lineDescription  }}</td>
+                <td>{{ item.lineDescription  }}</td>
+                <td>{{ item.lineDescription  }}</td>
+                <td>{{ item.lineDescription  }}</td>
+
+              </tr>
+            </tbody>
+            <!-- <tfoot>
+              <tr>
+                <td colspan="8"></td>
+                <td class="summary">รวมยอดเดบิต</td>
+                <td class="summary-result text-right">{{ sumCostDebit | number: '1.2-2' }}</td>
+              </tr>
+              <tr>
+                <td colspan="8"></td>
+                <td class="summary">รวมยอดเครดิต</td>
+                <td class="summary-result text-right" *ngIf="sumCostCredit!==0"> - {{ sumCostCredit | number: '1.2-2' }}
+                </td>
+                <td class="summary-result text-right" *ngIf="sumCostCredit===0"> {{ sumCostCredit | number: '1.2-2' }}
+                </td>
+              </tr>
+            </tfoot> -->
+          </table>
+          <!-- <pagination-controls previousLabel="<" nextLabel=">" (pageChange)="p = $event"></pagination-controls> -->
+        </div>
+
+
+
+
+      </div>
+    </mat-form-field>
+  </mat-dialog-content>
+  <!-- <div *ngIf="!isSaveSuccess" class="modal-footer" mat-dialog-actions>
+    <button [disabled]="!isPresaveSuccess" class="btn-success" (click)="onConfirmSave()">บันทึกข้อมูล</button>
+    <button (click)="onEditDocument()">กลับไปแก้ไขข้อมูล</button>
+    <button (click)="onClickExportXML()" class="btn-info">Export XML</button>
+    <button (click)="onClickExportJSON()" class="btn-info">Export JSON</button>
+  </div>
+  <div *ngIf="isSaveSuccess" class="modal-footer d-flex" mat-dialog-actions>
+    <button (click)="onDisplayDocument()" class="btn-primary">แสดงข้อมูล</button>
+    <button [disabled]="isSaveSuccess" (click)="onEditDocument()">กลับไปแก้ไขข้อมูล</button>
+    <button (click)="onCreateNewDocument()">สร้างเอกสารใหม่</button>
+    <button (click)="onSearchPage()" class="btn-info">ค้นหาเอกสาร</button>
+    <div class="dropdown">
+      <button class="btn-info" type="button" id="printDocumentLog" (click)="printReport('pdf')">
+        พิมพ์รายงาน
+      </button>
+    </div>
+  </div> -->
+</div>
+<app-loading class="backdrop-loading" [isLoading]="isLoading"></app-loading>

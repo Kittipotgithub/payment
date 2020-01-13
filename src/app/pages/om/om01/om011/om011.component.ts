@@ -1,3 +1,4 @@
+import { DialogDetailDocumentComponent } from './../../../../shared/component/dialog-detail-document/dialog-detail-document.component';
 import { PaymentService } from './../../../../core/services/payment/payment.service';
 import { FormGroup, FormControl, FormBuilder } from '@angular/forms';
 import { Component, OnInit, ElementRef, ViewChild, QueryList, ViewChildren, AfterViewInit } from '@angular/core';
@@ -22,6 +23,7 @@ import { LoadingScreenService } from '@core/services/loading-screen/loading-scre
 
 import { map, startWith } from 'rxjs/operators';
 import { Observable, Subject } from 'rxjs';
+import { DialogSearchComponent } from '@shared/component/dialog-search/dialog-search.component';
 @Component({
   selector: 'app-om011',
   templateUrl: './om011.component.html',
@@ -59,7 +61,14 @@ export class Om011Component implements OnInit, AfterViewInit {
 
   outlineControl: FormControl; // โครงร่าง
 
-
+  departmentCodeFromBindingName = '' // รหัสหน่วยงาน
+  departmentCodeToBindingName = '' // รหัสหน่วยงาน
+  provinceCodeFromBindingName = '' // รหัสจังหวัด
+  provinceCodeToBindingName = '' // รหัสจังหวัด
+  vendorTaxIdFromBindingName = '' // ผุ้ขาย
+  vendorTaxIdToBindingName = '' // ผุ้ขาย
+  disbursementCodeFromBindingName = '' // รหัสหน่วยเบิกจ่าย
+  disbursementCodeToBindingName = '' // รหัสหน่วยเบิกจ่าย
 
 
   listValidate = [];
@@ -79,7 +88,7 @@ export class Om011Component implements OnInit, AfterViewInit {
   userProfile: UserProfile;
   public datePickerHeader = DatepickerHeaderComponent;
 
-
+  isOpenCollapseDetail = true
   // options: string[] = ['120050000100', '120050000200', '120050000300'];
   filteredOptions: Observable<string[]>;
   constructor(
@@ -128,8 +137,8 @@ export class Om011Component implements OnInit, AfterViewInit {
     this.provinceCodeFromControl = this.formBuilder.control(''); // รหัสจังหวัด
     this.provinceCodeToControl = this.formBuilder.control(''); // รหัสจังหวัด
     this.yearAccountControl = this.formBuilder.control(this.utils.fisc_year); // ปีบัญชี
-    this.postDateFromControl = this.formBuilder.control(new Date()); // วันผ่านรายการ
-    this.postDateToControl = this.formBuilder.control(new Date()); // วันผ่านรายการ
+    this.postDateFromControl = this.formBuilder.control(''); // วันผ่านรายการ
+    this.postDateToControl = this.formBuilder.control(''); // วันผ่านรายการ
     this.vendorTaxIdFromControl = this.formBuilder.control(''); // ผุ้ขาย
     this.vendorTaxIdToControl = this.formBuilder.control(''); // ผุ้ขาย
     this.disbursementCodeFromControl = this.formBuilder.control(''); // รหัสหน่วยเบิกจ่าย
@@ -139,10 +148,10 @@ export class Om011Component implements OnInit, AfterViewInit {
     this.docTypeToControl = this.formBuilder.control(''); // ประเภทเอกสาร
     this.payMethodFromControl = this.formBuilder.control(''); // วิธีชำระเงิน
     this.payMethodToControl = this.formBuilder.control(''); // วิธีชำระเงิน
-    this.documentDateFromControl = this.formBuilder.control(new Date()); // วันที่เอกสาร
-    this.documentDateToControl = this.formBuilder.control(new Date()); // วันที่เอกสาร
-    this.documentCreateDateFromControl = this.formBuilder.control(new Date()); // วันที่บันทึก
-    this.documentCreateDateToControl = this.formBuilder.control(new Date()); // วันที่บันทึก
+    this.documentDateFromControl = this.formBuilder.control(''); // วันที่เอกสาร
+    this.documentDateToControl = this.formBuilder.control(''); // วันที่เอกสาร
+    this.documentCreateDateFromControl = this.formBuilder.control(''); // วันที่บันทึก
+    this.documentCreateDateToControl = this.formBuilder.control(''); // วันที่บันทึก
     this.specialTypeFromControl = this.formBuilder.control(''); // แยกประเภทพิเศษ
     this.specialTypeToControl = this.formBuilder.control(''); // แยกประเภทพิเศษ
 
@@ -182,6 +191,97 @@ export class Om011Component implements OnInit, AfterViewInit {
 
   onSearch() {
     const form = this.om011FormCreate.value;
+    const payload = {
+      compCodeFrom: '',
+      compCodeTo: '',
+      fiAreaFrom: '',
+      fiAreaTo: '',
+      fiscalYear: '',
+      dateAcctFrom: '',
+      dateAcctTo: '',
+      bPartnerFrom: '',
+      bPartnerTo: '',
+      paymentCenterFrom: '',
+      paymentCenterTo: '',
+      docTypeFrom: '',
+      docTypeTo: '',
+      paymentMethodFrom: '',
+      paymentMethodTo: '',
+      dateDocFrom: '',
+      dateDocTo: '',
+      dateCreatedFrom: '',
+      dateCreatedTo: '',
+      specialGlFrom: '',
+      specialGlTo: ''
+    }
+    //วันผ่านรายการ
+    let postDateFrom = ''
+    let postDateTo = ''
+    if (form.postDateFrom && form.postDateTo) {
+      const dayPostDateFrom = form.postDateFrom.getDate();
+      const monthPostDateFrom = form.postDateFrom.getMonth() + 1;
+      const yearPostDateFrom = form.postDateFrom.getFullYear();
+      const dayPostDateTo = form.postDateTo.getDate();
+      const monthPostDateTo = form.postDateTo.getMonth() + 1;
+      const yearPostDateTo = form.postDateTo.getFullYear();
+      postDateFrom = this.utils.parseDate(dayPostDateFrom, monthPostDateFrom, yearPostDateFrom);
+      postDateTo = this.utils.parseDate(dayPostDateTo, monthPostDateTo, yearPostDateTo);
+    }
+    //วันที่เอกสาร
+    let documentDateFrom = ''
+    let documentDateTo = ''
+    if (form.documentDateFrom && form.documentDateTo) {
+      const dayDocumentDateFrom = form.documentDateFrom.getDate();
+      const monthDocumentDateFrom = form.documentDateFrom.getMonth() + 1;
+      const yearDocumentDateFrom = form.documentDateFrom.getFullYear();
+      const dayDocumentDateTo = form.documentDateTo.getDate();
+      const monthDocumentDateTo = form.documentDateTo.getMonth() + 1;
+      const yearDocumentDateTo = form.documentDateTo.getFullYear();
+      documentDateFrom = this.utils.parseDate(dayDocumentDateFrom, monthDocumentDateFrom, yearDocumentDateFrom);
+      documentDateTo = this.utils.parseDate(dayDocumentDateTo, monthDocumentDateTo, yearDocumentDateTo);
+    }
+    // วันที่บันทึก
+    let documentCreateDateFrom = ''
+    let documentCreateDateTo = ''
+    if (form.documentCreateDateFrom && form.documentCreateDateTo) {
+      const dayDocumentCreateDateFrom = form.documentCreateDateFrom.getDate();
+      const monthDocumentCreateDateFrom = form.documentCreateDateFrom.getMonth() + 1;
+      const yearDocumentCreateDateFrom = form.documentCreateDateFrom.getFullYear();
+      const dayDocumentCreateDateTo = form.documentCreateDateTo.getDate();
+      const monthDocumentCreateDateTo = form.documentCreateDateTo.getMonth() + 1;
+      const yearDocumentCreateDateTo = form.documentCreateDateTo.getFullYear();
+      documentCreateDateFrom = this.utils.parseDate(dayDocumentCreateDateFrom, monthDocumentCreateDateFrom, yearDocumentCreateDateFrom);
+      documentCreateDateTo = this.utils.parseDate(dayDocumentCreateDateTo, monthDocumentCreateDateTo, yearDocumentCreateDateTo);
+    }
+
+    payload.compCodeFrom = form.departmentCodeFrom // รหัสหน่วยงาน
+    payload.compCodeTo = form.departmentCodeTo // รหัสหน่วยงาน
+    payload.fiAreaFrom = form.provinceCodeFrom // รหัสจังหวัด
+    payload.fiAreaTo = form.provinceCodeTo // รหัสจังหวัด
+    payload.fiscalYear = this.utils.convertYearToAD(form.yearAccount) // ปีบัญชี
+    payload.dateAcctFrom = postDateFrom // วันผ่านรายการ
+    payload.dateAcctTo = postDateTo// วันผ่านรายการ
+    payload.bPartnerFrom = form.vendorTaxIdFrom // ผุ้ขาย
+    payload.bPartnerTo = form.vendorTaxIdTo // ผุ้ขาย
+    payload.paymentCenterFrom = form.disbursementCodeFrom // รหัสหน่วยเบิกจ่าย
+    payload.paymentCenterTo = form.disbursementCodeTo // รหัสหน่วยเบิกจ่าย
+
+    payload.docTypeFrom = form.docTypeFrom // ประเภทเอกสาร
+    payload.docTypeTo = form.docTypeTo // ประเภทเอกสาร
+    payload.paymentMethodFrom = form.payMethodFrom // วิธีชำระเงิน
+    payload.paymentMethodTo = form.payMethodTo // วิธีชำระเงิน
+    payload.dateDocFrom = documentDateFrom// วันที่เอกสาร
+    payload.dateDocTo = documentDateTo// วันที่เอกสาร
+    payload.dateCreatedFrom = documentCreateDateFrom // วันที่บันทึก
+    payload.dateCreatedTo = documentCreateDateTo// วันที่บันทึก
+    payload.specialGlFrom = form.specialTypeFrom // แยกประเภทพิเศษ
+    payload.specialGlTo = form.specialTypeTo // แยกประเภทพิเศษ
+
+    // payload.= form.outline // โครงร่าง
+
+    this.search(payload)
+    console.log(payload)
+
 
     // let data = {
     //   lineNo: 1,
@@ -235,30 +335,8 @@ export class Om011Component implements OnInit, AfterViewInit {
     // this.listDocument.push(data1)
     // this.listDocument.push(data2)
 
-    const data = {
-      compCodeFrom: '',
-      compCodeTo: '',
-      fiAreaFrom: '',
-      fiAreaTo: '',
-      fiscalYear: '',
-      dateAcctFrom: '',
-      dateAcctTo: '',
-      bPartnerFrom: '',
-      bPartnerTo: '',
-      paymentCenterFrom: '',
-      paymentCenterTo: '',
-      docTypeFrom: '',
-      docTypeTo: '',
-      paymentMethodFrom: '',
-      paymentMethodTo: '',
-      dateDocFrom: '',
-      dateDocTo: '',
-      dateCreatedFrom: '',
-      dateCreatedTo: '',
-      specialGlFrom: '',
-      specialGlTo: ''
-    }
-    this.search(data)
+
+
 
   }
 
@@ -275,9 +353,12 @@ export class Om011Component implements OnInit, AfterViewInit {
         if (result.length > 0 && result.length <= 500) {
           this.listDocument = result;
           this.selectedTabIndex = 1;
+          let i = 0
           this.listDocument.forEach(document => {
+            document.no = i++
             document.approve = false;
             document.notApprove = false;
+            document.reason = ''
           });
         } else if (result.length > 500) {
           this.listMessageResponse.push('ไม่สามารถแสดงผลการค้นหาเกิน 500 รายการได้ กรุณาเปลี่ยนเงื่อนไขการค้นหาใหม่');
@@ -309,12 +390,13 @@ export class Om011Component implements OnInit, AfterViewInit {
     });
   }
 
-  setReasonIntoDocument(index) {
-    console.log('index')
-    console.log('index')
-    const value = this.reasonInput.toArray()[index].nativeElement.value;
-    this.listDocument[index].reason = value;
-    // this.isBoxNotApproveShow = true;
+
+  setReasonIntoDocument(index, document) {
+    console.log(document)
+    const getValue = this.reasonInput.toArray()[index].nativeElement.value;
+    console.log(getValue)
+    this.listDocument[document.no].reason = getValue;
+    console.log(this.listDocument[document.no])
   }
 
   cleanInputReason(index) {
@@ -505,5 +587,133 @@ export class Om011Component implements OnInit, AfterViewInit {
       return false;
     }
     return true;
+  }
+  openCollapseDetail() {
+    this.isOpenCollapseDetail = !this.isOpenCollapseDetail;
+  }
+
+
+  openDialogSearch(type) {
+    let specialCase: any;
+    // เลขที่เอกสารสำรองเงิน
+    // if (type === 'backupDocument') {
+    //   specialCase = {
+    //     formId: this.constant.FORM_ID_BC.bc01,
+    //     departmentCode: this.om011FormCreate.get('departmentCode').value,
+    //     disbursementCode: this.om011FormCreate.get('disbursementCode').value,
+    //   };
+    // } else if (type === 'centerCode') {
+    //   specialCase = {
+    //     departmentCode: this.om011FormCreate.get('departmentCode').value,
+    //     disbursementCode: this.om011FormCreate.get('disbursementCode').value,
+    //     areaCode: this.om011FormCreate.get('areaCode').value,
+    //   };
+    // } else if (type === 'sourceMoneyCode') {
+    //   specialCase = {
+    //     year: this.om011FormCreate.get('yearSourceMoney').value,
+    //   };
+    // } else if (type === 'sourceBudgetCode') {
+    //   specialCase = {
+    //     departmentCode: this.om011FormCreate.get('departmentCode').value,
+    //     year: this.om011FormCreate.get('yearSourceMoney').value,
+    //   };
+    // } else if (type === 'mainActivityCode') {
+    //   specialCase = {
+    //     departmentCode: this.om011FormCreate.get('departmentCode').value,
+    //     year: this.om011FormCreate.get('yearSourceMoney').value,
+    //   };
+    // } else if (type === 'subActivityCode') {
+    //   specialCase = {
+    //     departmentCode: this.om011FormCreate.get('departmentCode').value,
+    //     year: this.om011FormCreate.get('yearSourceMoney').value,
+    //   };
+    // } else if (type === 'accountDepositCode') {
+    //   specialCase = {
+    //     disbursementCode: this.om011FormCreate.get('disbursementCode').value,
+    //   };
+    // } else if (type === 'subAccountCode') {
+    //   specialCase = {
+    //     disbursementCode: this.om011FormCreate.get('disbursementCode').value,
+    //   };
+    // } else if (type === 'bankBook') {
+    //   specialCase = {
+    //     departmentCode: this.om011FormCreate.get('departmentCode').value,
+    //   };
+    // } else if (type === 'vendorBankAccount') {
+    //   specialCase = {
+    //     vendorTaxId: this.om011FormCreate.get('vendorTaxId').value,
+    //   };
+    // } else if (type === 'storageCenterCode') {
+    //   specialCase = {
+    //     departmentCode: this.om011FormCreate.get('departmentCode').value,
+    //     disbursementCode: this.om011FormCreate.get('disbursementCode').value,
+    //   };
+    // } else if (type === 'remittanceCenterCode') {
+    //   specialCase = {
+    //     departmentCode: this.om011FormCreate.get('departmentCode').value,
+    //     disbursementCode: this.om011FormCreate.get('disbursementCode').value,
+    //   };
+    // } else if (type === 'branchNo') {
+    //   specialCase = {
+    //     bankCode: this.om011FormCreate.get('bankCode').value,
+    //   };
+    // } else if (type === 'assetMasterNo') {
+    //   specialCase = {
+    //     departmentCode: this.om011FormCreate.get('departmentCode').value,
+    //   };
+    // }
+    const dialogRef = this.dialog.open(DialogSearchComponent, {
+      width: '70vw',
+      data: { type, specialCase },
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result && result.event) {
+        this.om011FormCreate.patchValue({ [result.type]: result.value });
+        if (type === 'departmentCodeFrom') {
+          // รหัสหน่วยงาน จาก
+          this.departmentCodeFromBindingName = result.name;
+        } else if (type === 'departmentCodeFrom') {
+          // รหัสหน่วยงาน ถึง
+          this.departmentCodeToBindingName = result.name;
+        } else if (type === 'provinceCodeFrom') {
+          // รหัสจังหวัด จาก
+          this.provinceCodeFromBindingName = result.name;
+        }
+        else if (type === 'provinceCodeTo') {
+          // รหัสจังหวัด ถึง
+          this.provinceCodeToBindingName = result.name;
+        }
+        else if (type === 'vendorTaxIdFrom') {
+          // ผู้ขาย จาก
+          this.vendorTaxIdFromBindingName = result.name;
+        }
+        else if (type === 'vendorTaxIdTo') {
+          // ผู้ขาย ถึง
+          this.vendorTaxIdToBindingName = result.name;
+        }
+        else if (type === 'disbursementCodeFrom') {
+          // หน่วยเบิกจ่าย จาก
+          this.disbursementCodeFromBindingName = result.name;
+        }
+        else if (type === 'disbursementCodeTo') {
+          // หน่วยเบิกจ่าย ถึง
+          this.disbursementCodeToBindingName = result.name;
+        }
+      }
+    });
+  }
+
+  openDialogDetailDocument(document) {
+    const dialogRef = this.dialog.open(DialogDetailDocumentComponent, {
+      width: '70vw',
+      data: {
+        document
+      },
+    });
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+      }
+    });
   }
 }

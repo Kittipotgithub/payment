@@ -9,7 +9,7 @@ import { FiPayment } from '@core/models/fi-payment';
 })
 export class PaymentService {
   constructor(private apiService: ApiService) { }
-  
+
   searchPaymentBlock(payload): Observable<any> {
     return this.apiService.post('/payment/search', payload).pipe(
       map(data => {
@@ -18,5 +18,13 @@ export class PaymentService {
       })
     );
   }
+  searchDetailDocument(textSearch): Observable<FiPayment> {
+    return this.apiService.get('/payment/searchDetail/' + textSearch).pipe(
+      map(data => {
+        return data;
+      })
+    );
+  }
+
 
 }
